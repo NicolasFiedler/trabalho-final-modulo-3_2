@@ -1,6 +1,6 @@
-CREATE SCHEMA VEM_SER;
-
-SET SCHEMA VEM_SER;
+--CREATE SCHEMA VEM_SER;
+--
+--SET SCHEMA VEM_SER;
 
 -- -----------------------------------------------------
 -- Table CATEGORY
