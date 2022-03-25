@@ -1,8 +1,10 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -31,4 +33,8 @@ public class UsersEntity {
 
     @Column(name = "document")
     private String document;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "REQUEST", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RequestEntity> requests;
 }

@@ -8,5 +8,5 @@ import javax.validation.constraints.NotNull;
 @Data
 public class BankAccountDTO extends BankAccountCreateDTO {
     @NotNull
-    private Integer id_bank_account;
+    private Integer idBankAccount;
 }

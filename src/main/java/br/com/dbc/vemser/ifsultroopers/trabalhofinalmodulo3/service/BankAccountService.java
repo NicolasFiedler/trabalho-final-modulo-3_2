@@ -1,65 +1,57 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
-<<<<<<< HEAD
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.bankaccount.BankAccountCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.bankaccount.BankAccountDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.BankAccount;
-=======
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.BankAccountDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.BankAccountEntity;
->>>>>>> 064f85a7c101c9ccf0de40a73d5291497c2b9a2f
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.BankAccountRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BankAccountService {
+    private final BankAccountRepository bankAccountRepository;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private BankAccountRepository bankAccountRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    public BankAccountDTO create(BankAccountDTO bankAcccountCreate) throws Exception {
+    public BankAccountDTO create(BankAccountCreateDTO bankAcccountCreate) throws Exception {
 
         BankAccountEntity bankAccountEntity = objectMapper.convertValue(bankAcccountCreate, BankAccountEntity.class);
-        BankAccountEntity bankAccountEntityCreated = bankAccountRepository.create(bankAccountEntity);
-        BankAccountDTO bankAccountDTO = objectMapper.convertValue(bankAccountEntityCreated, BankAccountDTO.class);
-
-
-
-        return bankAccountDTO;
+        BankAccountEntity bankAccountEntityCreated = bankAccountRepository.save(bankAccountEntity);
+        return objectMapper.convertValue(bankAccountEntityCreated, BankAccountDTO.class);
     }
 
 
     public BankAccountDTO update(Integer id,
-                                 BankAccountDTO bankAccountUpdate) throws Exception {
+                                 BankAccountCreateDTO bankAccountUpdate) throws Exception {
         BankAccountEntity bankAccountEntity = objectMapper.convertValue(bankAccountUpdate, BankAccountEntity.class);
-        bankAccountRepository.update(id, bankAccountEntity);
-        return bankAccountUpdate;
+        bankAccountRepository.save(bankAccountEntity);
+        return objectMapper.convertValue(bankAccountUpdate, BankAccountDTO.class);
     }
 
     public List<BankAccountDTO>list(){
-        return bankAccountRepository.list()
+        return bankAccountRepository.findAll()
                 .stream()
                 .map(bankAccountEntity -> objectMapper.convertValue(bankAccountEntity, BankAccountDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public BankAccountDTO getBankAccountById(Integer id) throws Exception {
-        BankAccountEntity bankAccountEntity = bankAccountRepository.getBankAccountById(id);
-        BankAccountDTO bankAccountDTO = objectMapper.convertValue(bankAccountEntity, BankAccountDTO.class);
-        return  bankAccountDTO;
+    public BankAccountDTO getBankAccountById(Integer id) throws BusinessRuleException {
+        return bankAccountRepository.findById(id).stream()
+                .map(bankAccountEntity -> objectMapper.convertValue(bankAccountEntity, BankAccountDTO.class))
+                .findAny()
+                .orElseThrow(() -> new BusinessRuleException("Conta bancaria nao encontrada!"));
     }
 
     public BankAccountDTO delete(Integer id) throws Exception {
-        BankAccountEntity bankAccountEntity = bankAccountRepository.delete(id);
-        BankAccountDTO bankAccountDTO = objectMapper.convertValue(bankAccountEntity, BankAccountDTO.class);
+        BankAccountDTO bankAccountDTO = getBankAccountById(id);
+        bankAccountRepository.deleteById(id);
         return bankAccountDTO;
+
     }
 
 }

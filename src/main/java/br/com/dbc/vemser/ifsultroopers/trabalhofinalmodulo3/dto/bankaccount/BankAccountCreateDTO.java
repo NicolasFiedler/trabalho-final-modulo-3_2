@@ -10,5 +10,5 @@ public class BankAccountCreateDTO {
 
     @NotNull
     @NotEmpty
-    private String account_number, agency;
+    private String accountNumber, agency;
 }
