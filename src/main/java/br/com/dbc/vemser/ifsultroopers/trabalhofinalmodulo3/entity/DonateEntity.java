@@ -1,19 +1,41 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-@Data
-@Builder
+import javax.persistence.*;
+import java.util.Set;
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name = "DONATE")
 public class DonateEntity {
-    private Integer id_donate;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DONATE_SEQ")
+    @SequenceGenerator(name= "DONATE_SEQ", sequenceName = "donate_seq", allocationSize = 1)
+    @Column(name = "id_donate")
+    private Integer idDonate;
+
+    @Column(name = "id_request", insertable = false, updatable = false)
     private Integer idRequest;
-    private String donator_name;
-    private String donator_email;
-    private Double donate_value;
+
+    @Column(name = "donator_name")
+    private String donatorName;
+
+    @Column(name = "donator_email")
+    private String donatorEmail;
+
+    @Column(name = "id_donate")
+    private Double donateValue;
+
+    @Column(name = "id_donate")
     private String description;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_request", referencedColumnName = "id_request")
+    private RequestEntity requests;
 }
