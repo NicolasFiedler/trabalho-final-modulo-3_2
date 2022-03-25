@@ -1,7 +1,7 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.controller;
 
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.DonateCreateDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.DonateDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateCreateDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.DonateService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

@@ -1,12 +1,8 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.BankAccountDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.DonateCreateDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.DonateDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.bankaccount.BankAccountDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.BankAccount;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Donate;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.BankAccountRepository;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.DonateRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

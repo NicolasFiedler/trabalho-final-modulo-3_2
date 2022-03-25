@@ -1,4 +1,4 @@
-package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto;
+package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Request;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.controller;
 
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.BankAccountDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.bankaccount.BankAccountDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.BankAccountService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
