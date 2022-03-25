@@ -7,6 +7,7 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.UsersService
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -19,10 +20,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Validated
+@RequiredArgsConstructor
 public class UsersController {
 
-    @Autowired
-    private UsersService usersService;
+    private final UsersService usersService;
 
     @ApiOperation(value = "Retorna a lista de todos os usuarios")
     @ApiResponses(value = {

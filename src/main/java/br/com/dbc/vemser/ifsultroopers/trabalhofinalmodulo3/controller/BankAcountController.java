@@ -5,6 +5,7 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.BankAccountS
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,11 +18,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/BankAccount") // localhost:8080/pessoa
 @Validated
+@RequiredArgsConstructor
 public class BankAcountController {
-    @Autowired
-    private BankAccountService bankAccountService;
-//    @Autowired
-//    private EmailService emailService;
+
+    private final BankAccountService bankAccountService;
+
+//    private final EmailService emailService;
 
     @ApiOperation(value = "Cria e retorna a Bank Account criada")
     @ApiResponses(value = {
