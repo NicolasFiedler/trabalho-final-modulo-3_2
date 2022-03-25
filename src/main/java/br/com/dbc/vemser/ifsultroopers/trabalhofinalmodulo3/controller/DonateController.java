@@ -6,7 +6,7 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.DonateServic
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/donate") // localhost:8080/pessoa
 @Validated
-public class DonateController {
+@RequiredArgsConstructor
+public final class DonateController {
 
-    @Autowired
-    private DonateService donateService;
-//    @Autowired
-//    private EmailService emailService;
+    private final DonateService donateService;
 
     @ApiOperation(value = "Cria e retorna a Donate criada")
     @ApiResponses(value = {
