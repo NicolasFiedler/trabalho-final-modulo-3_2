@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BankAccount {
+public class BankAccountEntity {
 
     @NotNull
     private Integer id_bank_account;

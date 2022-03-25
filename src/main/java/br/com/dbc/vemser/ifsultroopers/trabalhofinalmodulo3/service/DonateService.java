@@ -2,8 +2,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.DonateCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.DonateDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Donate;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Request;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.DonateEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.DonateRepository;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.RequestRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,10 +24,10 @@ public class DonateService {
 
     public DonateDTO create(DonateCreateDTO donateCreate) throws Exception {
 
-        Donate donate = objectMapper.convertValue(donateCreate, Donate.class);
-        requestRepository.incrementReachedValue(donate.getIdRequest(), donate.getDonate_value());
-        Donate donateCreated = donateRepository.create(donate);
-        DonateDTO donateDTO = objectMapper.convertValue(donateCreated, DonateDTO.class);
+        DonateEntity donateEntity = objectMapper.convertValue(donateCreate, DonateEntity.class);
+        requestRepository.incrementReachedValue(donateEntity.getIdRequest(), donateEntity.getDonate_value());
+        DonateEntity donateEntityCreated = donateRepository.create(donateEntity);
+        DonateDTO donateDTO = objectMapper.convertValue(donateEntityCreated, DonateDTO.class);
 
         return donateDTO;
 
@@ -36,10 +35,10 @@ public class DonateService {
 
     public DonateDTO update(Integer id,
                             DonateDTO donateUpdate) throws Exception {
-        Donate donate = objectMapper.convertValue(donateUpdate, Donate.class);
+        DonateEntity donateEntity = objectMapper.convertValue(donateUpdate, DonateEntity.class);
         Double valor = donateUpdate.getDonate_value()-getDonateById(id).getDonate_value();
-        donateRepository.update(id, donate);
-        requestRepository.incrementReachedValue(donate.getIdRequest(), valor);
+        donateRepository.update(id, donateEntity);
+        requestRepository.incrementReachedValue(donateEntity.getIdRequest(), valor);
 
         return donateUpdate;
     }
@@ -47,21 +46,21 @@ public class DonateService {
     public List<DonateDTO>list(){
         return donateRepository.list()
                 .stream()
-                .map(donate -> objectMapper.convertValue(donate, DonateDTO.class))
+                .map(donateEntity -> objectMapper.convertValue(donateEntity, DonateDTO.class))
                 .collect(Collectors.toList());
     }
 
     public DonateDTO getDonateById(Integer id) throws Exception {
-        Donate donate= donateRepository.getDonataById(id);
-        DonateDTO donateDTO = objectMapper.convertValue(donate, DonateDTO.class);
+        DonateEntity donateEntity = donateRepository.getDonataById(id);
+        DonateDTO donateDTO = objectMapper.convertValue(donateEntity, DonateDTO.class);
         return  donateDTO;
     }
 
     public DonateDTO delete(Integer id) throws Exception {
-        Donate donate = donateRepository.delete(id);
-        DonateDTO donateDTO = objectMapper.convertValue(donate, DonateDTO.class);
-        Double valor= 0-donate.getDonate_value();
-        requestRepository.incrementReachedValue(donate.getIdRequest(), valor);
+        DonateEntity donateEntity = donateRepository.delete(id);
+        DonateDTO donateDTO = objectMapper.convertValue(donateEntity, DonateDTO.class);
+        Double valor= 0- donateEntity.getDonate_value();
+        requestRepository.incrementReachedValue(donateEntity.getIdRequest(), valor);
         return donateDTO;
     }
 }

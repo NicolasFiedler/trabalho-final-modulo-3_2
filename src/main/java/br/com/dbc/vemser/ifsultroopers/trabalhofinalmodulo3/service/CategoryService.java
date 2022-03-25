@@ -2,8 +2,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.category.CategoryCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.category.CategoryDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.CategoryEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.CategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +23,7 @@ public class CategoryService {
     public List<CategoryDTO> findAll() {
         return repo.findAll()
                 .stream()
-                .map(category -> mapper.convertValue(category, CategoryDTO.class))
+                .map(categoryEntity -> mapper.convertValue(categoryEntity, CategoryDTO.class))
                 .toList();
     }
 
@@ -37,20 +36,20 @@ public class CategoryService {
             throw new BusinessRuleException("Categoria já existe.");
         }
 
-        Category entity = mapper.convertValue(category, Category.class);
-        Category created = repo.create(entity);
+        CategoryEntity entity = mapper.convertValue(category, CategoryEntity.class);
+        CategoryEntity created = repo.create(entity);
 
         return mapper.convertValue(created, CategoryDTO.class);
     }
 
     public CategoryDTO update(Integer id, CategoryCreateDTO data) throws Exception {
         CategoryDTO entityDTO = mapper.convertValue(data, CategoryDTO.class);
-        Category updated = repo.update(id, mapper.convertValue(entityDTO, Category.class));
+        CategoryEntity updated = repo.update(id, mapper.convertValue(entityDTO, CategoryEntity.class));
         return mapper.convertValue(updated, CategoryDTO.class);
     }
 
     public CategoryDTO delete(Integer id) throws Exception {
-        Category deleted = repo.delete(id);
+        CategoryEntity deleted = repo.delete(id);
         return mapper.convertValue(deleted, CategoryDTO.class);
     }
 

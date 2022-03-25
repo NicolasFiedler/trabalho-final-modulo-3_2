@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Request {
+public class RequestEntity {
 
     private Integer idRequest;
     private String title;
