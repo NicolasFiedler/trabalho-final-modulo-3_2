@@ -1,7 +1,6 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository;
 
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.BankAccount;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Donate;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.BankAccountEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import org.springframework.stereotype.Repository;
 
@@ -11,53 +10,53 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
 public class BankAccountRepository {
-    private static List<BankAccount> listBankAccount = new ArrayList<>();
+    private static List<BankAccountEntity> listBankAccountEntity = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
 
     public BankAccountRepository() {
-        listBankAccount.add(new BankAccount(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
-        listBankAccount.add(new BankAccount(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
-        listBankAccount.add(new BankAccount(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
-        listBankAccount.add(new BankAccount(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
-        listBankAccount.add(new BankAccount(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
+        listBankAccountEntity.add(new BankAccountEntity(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
+        listBankAccountEntity.add(new BankAccountEntity(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
+        listBankAccountEntity.add(new BankAccountEntity(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
+        listBankAccountEntity.add(new BankAccountEntity(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
+        listBankAccountEntity.add(new BankAccountEntity(COUNTER.incrementAndGet() /*1*/, "0665216352", "10202"));
 
     }
 
-    public BankAccount create(BankAccount bankAccount) {
-        bankAccount.setId_bank_account(COUNTER.incrementAndGet());
-        listBankAccount.add(bankAccount);
-        return bankAccount;
+    public BankAccountEntity create(BankAccountEntity bankAccountEntity) {
+        bankAccountEntity.setId_bank_account(COUNTER.incrementAndGet());
+        listBankAccountEntity.add(bankAccountEntity);
+        return bankAccountEntity;
     }
 
-    public List<BankAccount> list() {
-        return listBankAccount;
+    public List<BankAccountEntity> list() {
+        return listBankAccountEntity;
     }
 
-    public BankAccount update(Integer id,
-                         BankAccount bankAccountUpdate) throws BusinessRuleException {
-        BankAccount bankAccountRecovered = listBankAccount.stream()
-                .filter(bankAccount -> bankAccount.getId_bank_account().equals(id))
+    public BankAccountEntity update(Integer id,
+                                    BankAccountEntity bankAccountEntityUpdate) throws BusinessRuleException {
+        BankAccountEntity bankAccountEntityRecovered = listBankAccountEntity.stream()
+                .filter(bankAccountEntity -> bankAccountEntity.getId_bank_account().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new BusinessRuleException("Conta Bancaria não econtrada"));
-        bankAccountRecovered.setAccount_number(bankAccountUpdate.getAccount_number());
-        bankAccountRecovered.setAgency(bankAccountUpdate.getAgency());
-        return bankAccountRecovered;
+        bankAccountEntityRecovered.setAccount_number(bankAccountEntityUpdate.getAccount_number());
+        bankAccountEntityRecovered.setAgency(bankAccountEntityUpdate.getAgency());
+        return bankAccountEntityRecovered;
     }
 
-    public BankAccount getBankAccountById(Integer id) throws BusinessRuleException{
-        BankAccount bankAccountRecovered = listBankAccount.stream()
+    public BankAccountEntity getBankAccountById(Integer id) throws BusinessRuleException{
+        BankAccountEntity bankAccountEntityRecovered = listBankAccountEntity.stream()
                 .filter(pessoa -> pessoa.getId_bank_account().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new BusinessRuleException("Conta Bancaria não econtrada"));
-        return bankAccountRecovered;
+        return bankAccountEntityRecovered;
     }
 
-    public BankAccount delete(Integer id) throws BusinessRuleException {
-        BankAccount bankAccountRecovered = listBankAccount.stream()
+    public BankAccountEntity delete(Integer id) throws BusinessRuleException {
+        BankAccountEntity bankAccountEntityRecovered = listBankAccountEntity.stream()
                 .filter(pessoa -> pessoa.getId_bank_account().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new BusinessRuleException("Conta Bancaria não econtrada"));
-        listBankAccount.remove(bankAccountRecovered);
-        return bankAccountRecovered;
+        listBankAccountEntity.remove(bankAccountEntityRecovered);
+        return bankAccountEntityRecovered;
     }
 }

@@ -1,8 +1,6 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate;
 
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Request;
 import lombok.Data;
-import org.springframework.boot.context.properties.bind.Name;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;

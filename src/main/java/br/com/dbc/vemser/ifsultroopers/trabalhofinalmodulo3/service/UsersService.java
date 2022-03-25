@@ -2,7 +2,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Users;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.UsersEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.documents.CNPJ;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.documents.CPF;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
@@ -11,8 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-
-import static java.util.Arrays.asList;
 
 @Service
 
@@ -26,7 +24,7 @@ public class UsersService {
 
     public List<UsersDTO> list () {
         return usersRepository.findAll().stream()
-                .map(users -> objectMapper.convertValue(users, UsersDTO.class))
+                .map(usersEntity -> objectMapper.convertValue(usersEntity, UsersDTO.class))
                 .map(usersDTO -> {
                     if ((usersDTO.getType())){
                         CNPJ cnpj = new CNPJ(usersDTO.getDocument());
@@ -81,7 +79,7 @@ public class UsersService {
             usersCreateDTO.setDocument(cpf.getCPF(false));
         }
 
-        return objectMapper.convertValue(usersRepository.save(objectMapper.convertValue(usersCreateDTO, Users.class)), UsersDTO.class);
+        return objectMapper.convertValue(usersRepository.save(objectMapper.convertValue(usersCreateDTO, UsersEntity.class)), UsersDTO.class);
     }
 
     public UsersDTO update (Integer id, UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
@@ -116,7 +114,7 @@ public class UsersService {
         UsersDTO u = objectMapper.convertValue(usersCreateDTO, UsersDTO.class);
         u.setIdUser(id);
 
-        return objectMapper.convertValue(usersRepository.save(objectMapper.convertValue(u, Users.class)), UsersDTO.class);
+        return objectMapper.convertValue(usersRepository.save(objectMapper.convertValue(u, UsersEntity.class)), UsersDTO.class);
     }
 
     public UsersDTO delete (Integer id) throws BusinessRuleException {

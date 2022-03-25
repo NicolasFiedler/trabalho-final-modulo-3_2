@@ -1,17 +1,17 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
-    private Integer idUser;
+@Getter
+@Setter
+public class CategoryEntity {
+
+    private Integer idCategory;
     private String name;
-    private String email;
-    private String password;
-    private Boolean type;
-    private String document;
+    private String description;
 }

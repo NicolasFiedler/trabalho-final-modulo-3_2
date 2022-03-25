@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Donate {
+public class DonateEntity {
     private Integer id_donate;
     private Integer idRequest;
     private String donator_name;

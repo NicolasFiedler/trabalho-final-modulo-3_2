@@ -1,6 +1,5 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Donate;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Request;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.DonateEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -12,55 +11,55 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class DonateRepository {
 
-    private static List<Donate> listDonate = new ArrayList<>();
+    private static List<DonateEntity> listDonateEntity = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
 
     public DonateRepository() {
-        listDonate.add(new Donate(COUNTER.incrementAndGet() /*1*/, 1, "Maicon Gerardi","ana.gocthel@dbccompany.com.br", 100.00, "Boa sorte!"));
-        listDonate.add(new Donate(COUNTER.incrementAndGet() /*1*/, 1, "Ana Vitória","ana.gocthel@dbccompany.com.br", 200.00, "Boa sorte!"));
-        listDonate.add(new Donate(COUNTER.incrementAndGet() /*1*/, 2, "Nicolas Fiedler","ana.gocthel@dbccompany.com.br", 400.00, "Boa sorte!"));
-        listDonate.add(new Donate(COUNTER.incrementAndGet() /*1*/, 3, "Maria Eduarda","ana.gocthel@dbccompany.com.br", 50.00, "Boa sorte!"));
-        listDonate.add(new Donate(COUNTER.incrementAndGet() /*1*/, 4, "Augusto Oliveira","ana.gocthel@dbccompany.com.br", 10.00, "Boa sorte!"));
+        listDonateEntity.add(new DonateEntity(COUNTER.incrementAndGet() /*1*/, 1, "Maicon Gerardi","ana.gocthel@dbccompany.com.br", 100.00, "Boa sorte!"));
+        listDonateEntity.add(new DonateEntity(COUNTER.incrementAndGet() /*1*/, 1, "Ana Vitória","ana.gocthel@dbccompany.com.br", 200.00, "Boa sorte!"));
+        listDonateEntity.add(new DonateEntity(COUNTER.incrementAndGet() /*1*/, 2, "Nicolas Fiedler","ana.gocthel@dbccompany.com.br", 400.00, "Boa sorte!"));
+        listDonateEntity.add(new DonateEntity(COUNTER.incrementAndGet() /*1*/, 3, "Maria Eduarda","ana.gocthel@dbccompany.com.br", 50.00, "Boa sorte!"));
+        listDonateEntity.add(new DonateEntity(COUNTER.incrementAndGet() /*1*/, 4, "Augusto Oliveira","ana.gocthel@dbccompany.com.br", 10.00, "Boa sorte!"));
     }
 
-    public Donate create(Donate donate) throws Exception {
-        donate.setId_donate(COUNTER.incrementAndGet());
-        listDonate.add(donate);
+    public DonateEntity create(DonateEntity donateEntity) throws Exception {
+        donateEntity.setId_donate(COUNTER.incrementAndGet());
+        listDonateEntity.add(donateEntity);
 
-        return donate;
+        return donateEntity;
     }
 
-    public List<Donate> list() {
-        return listDonate;
+    public List<DonateEntity> list() {
+        return listDonateEntity;
     }
 
-    public Donate update(Integer id,
-                         Donate donateUpdate) throws BusinessRuleException {
-        Donate donateRecovered = listDonate.stream()
-                .filter(donate -> donate.getId_donate().equals(id))
+    public DonateEntity update(Integer id,
+                               DonateEntity donateEntityUpdate) throws BusinessRuleException {
+        DonateEntity donateEntityRecovered = listDonateEntity.stream()
+                .filter(donateEntity -> donateEntity.getId_donate().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new BusinessRuleException("Donate não econtrada"));
-        donateRecovered.setDonator_name(donateUpdate.getDonator_name());
-        donateRecovered.setDonator_email(donateUpdate.getDonator_email());
-        donateRecovered.setDonate_value(donateUpdate.getDonate_value());
-        donateRecovered.setDescription(donateUpdate.getDescription());
-        return donateRecovered;
+        donateEntityRecovered.setDonator_name(donateEntityUpdate.getDonator_name());
+        donateEntityRecovered.setDonator_email(donateEntityUpdate.getDonator_email());
+        donateEntityRecovered.setDonate_value(donateEntityUpdate.getDonate_value());
+        donateEntityRecovered.setDescription(donateEntityUpdate.getDescription());
+        return donateEntityRecovered;
     }
 
-    public Donate getDonataById(Integer id) throws BusinessRuleException{
-        Donate pessoaRecuperada = listDonate.stream()
+    public DonateEntity getDonataById(Integer id) throws BusinessRuleException{
+        DonateEntity pessoaRecuperada = listDonateEntity.stream()
                 .filter(pessoa -> pessoa.getId_donate().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new BusinessRuleException("Donate não econtrada"));
         return pessoaRecuperada;
     }
 
-    public Donate delete(Integer id) throws BusinessRuleException {
-        Donate pessoaRecuperada = listDonate.stream()
+    public DonateEntity delete(Integer id) throws BusinessRuleException {
+        DonateEntity pessoaRecuperada = listDonateEntity.stream()
                 .filter(pessoa -> pessoa.getId_donate().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new BusinessRuleException("Donate não econtrada"));
-        listDonate.remove(pessoaRecuperada);
+        listDonateEntity.remove(pessoaRecuperada);
         return pessoaRecuperada;
     }
 
