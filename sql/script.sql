@@ -25,7 +25,7 @@ CREATE TABLE  USERS (
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   password TEXT NOT NULL,
-  type numeric NOT NULL,
+  type boolean NOT NULL,
   document TEXT NOT NULL,
   
   PRIMARY KEY (id_user)
@@ -101,13 +101,14 @@ VALUES (nextval('bank_account_seq'), '7900255', '1205');
 -- INSERT USER
 -- -----------------------------------------------------
 INSERT  INTO USERS (id_user, name, email, password, type, document)
-VALUES (nextval('users_seq'), 'Daniele', 'dani@gmail', '1234', 1, '123.456.789-00');
+VALUES (nextval('users_seq'), 'Daniele', 'dani@gmail', '1234', false, '123.456.789-00');
 INSERT  INTO USERS (id_user, name, email, password, type, document)
-VALUES (nextval('users_seq'), 'Liane', 'liane@gmail', '1234', 1, '123.456.789-01');
+VALUES (nextval('users_seq'), 'Liane', 'liane@gmail', '1234', false, '123.456.789-01');
 INSERT  INTO USERS (id_user, name, email, password, type, document)
-VALUES (nextval('users_seq'), 'Claudia', 'claudia@gmail', '1234', 1, '123.456.789-02');
+VALUES (nextval('users_seq'), 'Claudia', 'claudia@gmail', '1234', false, '123.456.789-02');
 INSERT  INTO USERS (id_user, name, email, password, type, document)
-VALUES (nextval('users_seq'), 'Rodrigo', 'rodrigo@gmail', '1234', 2, '11.111.111/1111-11');
+VALUES (nextval('users_seq'), 'Rodrigo', 'rodrigo@gmail', '1234', true, '11.111.111/1111-11');
+
 
 -- -----------------------------------------------------
 -- INSERT REQUEST
