@@ -35,6 +35,6 @@ public class UsersEntity {
     private String document;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "REQUEST", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usersEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RequestEntity> requests;
 }

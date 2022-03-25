@@ -29,6 +29,6 @@ public class BankAccountEntity {
     private String agency;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "REQUEST", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "bankAccountEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RequestEntity> requests;
 }
