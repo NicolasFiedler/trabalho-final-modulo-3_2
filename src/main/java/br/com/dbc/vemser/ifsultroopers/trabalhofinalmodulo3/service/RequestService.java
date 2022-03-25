@@ -25,6 +25,7 @@ public class RequestService {
     @Autowired
     private CategoryService categoryService;
 
+// SERÁ GURIZADA
 
     @Autowired
     private ObjectMapper mapper;
