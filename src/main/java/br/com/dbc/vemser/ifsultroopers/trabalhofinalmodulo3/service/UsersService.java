@@ -25,7 +25,7 @@ public class UsersService {
     private ObjectMapper objectMapper;
 
     public List<UsersDTO> list () {
-        return usersRepository.list().stream()
+        return usersRepository.findAll().stream()
                 .map(users -> objectMapper.convertValue(users, UsersDTO.class))
                 .map(usersDTO -> {
                     if ((usersDTO.getType())){
@@ -81,7 +81,7 @@ public class UsersService {
             usersCreateDTO.setDocument(cpf.getCPF(false));
         }
 
-        return objectMapper.convertValue(usersRepository.create(objectMapper.convertValue(usersCreateDTO, Users.class)), UsersDTO.class);
+        return objectMapper.convertValue(usersRepository.save(objectMapper.convertValue(usersCreateDTO, Users.class)), UsersDTO.class);
     }
 
     public UsersDTO update (Integer id, UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
@@ -113,11 +113,16 @@ public class UsersService {
             usersCreateDTO.setDocument(cpf.getCPF(false));
         }
 
-        return objectMapper.convertValue(usersRepository.update(id, objectMapper.convertValue(usersCreateDTO, Users.class)), UsersDTO.class);
+        UsersDTO u = objectMapper.convertValue(usersCreateDTO, UsersDTO.class);
+        u.setIdUser(id);
+
+        return objectMapper.convertValue(usersRepository.save(objectMapper.convertValue(u, Users.class)), UsersDTO.class);
     }
 
     public UsersDTO delete (Integer id) throws BusinessRuleException {
-        return objectMapper.convertValue(usersRepository.delete(id), UsersDTO.class);
+        UsersDTO u = objectMapper.convertValue(usersRepository.findById(id), UsersDTO.class);
+        usersRepository.deleteById(id);
+        return u;
     }
 
     private boolean documentAlreadyExists(String document) {
