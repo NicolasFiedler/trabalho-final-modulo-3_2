@@ -1,14 +1,8 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
-<<<<<<< HEAD
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Donate;
-=======
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.DonateCreateDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.DonateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.DonateEntity;
->>>>>>> 064f85a7c101c9ccf0de40a73d5291497c2b9a2f
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.DonateRepository;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.RequestRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

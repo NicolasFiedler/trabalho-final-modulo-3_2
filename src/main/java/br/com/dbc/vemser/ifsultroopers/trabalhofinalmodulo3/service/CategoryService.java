@@ -2,9 +2,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.category.CategoryCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.category.CategoryDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.CategoryEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.CategoryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
