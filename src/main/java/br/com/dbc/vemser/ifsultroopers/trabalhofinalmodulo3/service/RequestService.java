@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestUpdateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
@@ -35,17 +36,18 @@ public class RequestService {
                 .toList();
     }
 
+    public RequestDTO create(Integer id, RequestCreateDTO request) throws BusinessRuleException {
+        RequestEntity requestEntity = objectMapper.convertValue(request, RequestEntity.class);
+        requestEntity.setIdUser(id);
+        RequestEntity created = requestRepository.save(requestEntity);
+        return objectMapper.convertValue(created, RequestDTO.class);
+    }
+
     public RequestDTO getById(Integer id) throws BusinessRuleException {
         RequestEntity requestEntity = requestRepository.findById(id)
                 .orElseThrow(() -> new BusinessRuleException("Vaquinha não encontrada!"));
         return objectMapper.convertValue(requestEntity, RequestDTO.class);
     }
-
-//    public RequestDTO create(Integer id, RequestCreateDTO request) throws BusinessRuleException {
-//        RequestEntity requestEntity = objectMapper.convertValue(request, RequestEntity.class);
-//        RequestEntity created = requestRepository.save(requestEntity);
-//        return objectMapper.convertValue(created, RequestDTO.class);
-//    }
 
     public RequestDTO update(Integer id, RequestUpdateDTO request) throws BusinessRuleException {
         RequestEntity requestEntity = requestRepository.findById(id)
@@ -64,14 +66,11 @@ public class RequestService {
         return objectMapper.convertValue(requestEntity, RequestDTO.class);
     }
 
-
-//    Tava fazendo mas travei
-
-
-    public void incrementReachedValue(Integer idRequest, Double donateValue) throws Exception{
+    public void incrementReachedValue(Integer idRequest, Double donateValue) throws Exception {
         RequestEntity requestEntity = requestRepository.findById(idRequest)
-                .orElseThrow(()-> new BusinessRuleException("Vaquinha não encontrada!"));
-        requestEntity.setReachedValue(requestEntity.getReachedValue()+donateValue);
+                .orElseThrow(() -> new BusinessRuleException("Vaquinha não encontrada!"));
+        requestEntity.setReachedValue(requestEntity.getReachedValue() + donateValue);
     }
 
 }
+
