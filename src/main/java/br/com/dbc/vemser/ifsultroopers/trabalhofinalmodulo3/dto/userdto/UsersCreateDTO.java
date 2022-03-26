@@ -1,11 +1,13 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto;
 
 import jdk.jfr.BooleanFlag;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.*;
-
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UsersCreateDTO {
     @NotNull
     @NotEmpty

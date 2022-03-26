@@ -6,10 +6,10 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.DonateEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.DonateRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Entity;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +26,7 @@ public class DonateService {
     public DonateDTO create(DonateCreateDTO donateCreate) throws Exception {
 
         DonateEntity donateEntity = objectMapper.convertValue(donateCreate, DonateEntity.class);
-//        incrementReachedValue(donateEntity.getIdRequest(), donateEntity.getDonateValue());
+        requestService.incrementReachedValue(donateEntity.getIdRequest(), donateEntity.getDonateValue());
         DonateEntity donateEntityCreated = donateRepository.save(donateEntity);
 
         return  objectMapper.convertValue(donateEntityCreated, DonateDTO.class);
@@ -40,7 +40,7 @@ public class DonateService {
         donateEntity.setDescription(donateUpdate.getDescription());
         donateEntity.setDonatorEmail(donateUpdate.getDonator_email());
         donateEntity.setDonatorName(donateUpdate.getDonator_name());
-//        requestRepository.incrementReachedValue(donateEntity.getIdRequest(), valor);
+        requestService.incrementReachedValue(donateEntity.getIdRequest(), donateUpdate.getDonate_value());
 
         return donateUpdate;
     }
@@ -64,14 +64,9 @@ public class DonateService {
         donateRepository.deleteById(id);
         DonateDTO donateDTO = objectMapper.convertValue(donateEntity, DonateDTO.class);
         Double valor= 0- donateEntity.getDonateValue();
-//        incrementReachedValue(donateEntity.getIdRequest(), valor);
+        requestService.incrementReachedValue(donateEntity.getIdRequest(), valor);
         return donateDTO;
     }
 
-        public void RequestDTO incrementReachedValue(Integer idRequest, Double donateValue) throws Exception{
-        RequestDTO requestDTO = requestService.findById(idRequest)
-                .orElseThrow(()->new BusinessRuleException("Request não encontrada!"));
-        requestDTO.setReachedValue(requestDTO.getReachedValue()+donateValue);
-        requestService.update(idRequest, requestDTO);
-    }
+
 }

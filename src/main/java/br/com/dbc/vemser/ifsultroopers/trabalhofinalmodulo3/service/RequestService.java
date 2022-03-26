@@ -66,11 +66,21 @@ public class RequestService {
     }
 
 
+<<<<<<< HEAD
     public RequestDTO updateReachedValue(Integer id, RequestDTO request) throws BusinessRuleException {
         RequestEntity requestEntity = requestRepository.findById(id)
                 .orElseThrow(() -> new BusinessRuleException("Vaquinha não encontrada!"));
         requestEntity.setReachedValue(request.getReachedValue());
         return objectMapper.convertValue(request, RequestDTO.class);
+=======
+//    Tava fazendo mas travei
+
+
+    public void incrementReachedValue(Integer idRequest, Double donateValue) throws Exception{
+        RequestEntity requestEntity = requestRepository.findById(idRequest)
+                .orElseThrow(()-> new BusinessRuleException("Vaquinha não encontrada!"));
+        requestEntity.setReachedValue(requestEntity.getReachedValue()+donateValue);
+>>>>>>> 590167160fe54bad506e89a3640df9cba5d14d79
     }
 
 //    public void RequestDTO incrementReachedValue(Integer idRequest, Double donateValue) throws Exception{
@@ -111,4 +121,6 @@ public class RequestService {
 //                .map(request -> objectMapper.convertValue(request, RequestDTO.class))
 //                .toList();
 //    }
+
+
 }
