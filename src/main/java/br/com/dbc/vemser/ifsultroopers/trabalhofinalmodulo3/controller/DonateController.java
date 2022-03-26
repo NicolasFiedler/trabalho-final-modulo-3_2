@@ -8,17 +8,19 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@Controller
 @RestController
-@RequestMapping("/donate") // localhost:8080/pessoa
+@RequestMapping("/donate")
 @Validated
 @RequiredArgsConstructor
-public final class DonateController {
+public class DonateController {
 
     private final DonateService donateService;
 
@@ -66,9 +68,9 @@ public final class DonateController {
     })
     @PutMapping("/{idDonate}") // localhost:8080/pessoa/1000
     public ResponseEntity<DonateDTO> update(@PathVariable("idDonate") Integer id,
-                                            @Valid @RequestBody DonateDTO donateDTO) throws Exception {
+                                            @Valid @RequestBody DonateCreateDTO donateCreateDTO) throws Exception {
 //        emailService.pessoaSendEmail(pessoaAtualizar, "Seus dados foram atualizados no nosso sistema.", "Atualização de dados");
-        return  ResponseEntity.ok(donateService.update(id, donateDTO));
+        return  ResponseEntity.ok(donateService.update(id, donateCreateDTO));
     }
 
     @ApiOperation(value = "Retorna a donate Deletada pelo Id")

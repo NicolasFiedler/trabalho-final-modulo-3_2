@@ -30,6 +30,9 @@ public class RequestEntity {
     @Column(name = "reached_value")
     private Double reachedValue;
 
+    @Column(name = "id_user")
+    private Integer idUser;
+
     @Column(name = "id_category")
     @Enumerated(EnumType.ORDINAL)
     private Category category;

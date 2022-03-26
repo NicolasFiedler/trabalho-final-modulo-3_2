@@ -6,7 +6,6 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.DonateEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.DonateRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class DonateService {
     }
 
     public DonateDTO update(Integer id,
-                            DonateDTO donateUpdate) throws Exception {
+                            DonateCreateDTO donateUpdate) throws Exception {
         DonateEntity donateEntity = donateRepository.findById(id)
                 .orElseThrow(()->new BusinessRuleException("Donate não encontrada!"));
         donateEntity.setDonateValue(donateUpdate.getDonate_value());
@@ -42,7 +41,7 @@ public class DonateService {
         donateEntity.setDonatorName(donateUpdate.getDonator_name());
         requestService.incrementReachedValue(donateEntity.getIdRequest(), donateUpdate.getDonate_value());
 
-        return donateUpdate;
+        return  objectMapper.convertValue(donateEntity, DonateDTO.class);
     }
 
     public List<DonateDTO>list(){
