@@ -42,12 +42,9 @@ public class UsersService {
     }
 
     public UsersDTO update (Integer id, UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
-
         getById(id);
-
         UsersEntity u = validateAndSetDocument(usersCreateDTO);
         u.setIdUser(id);
-
         return objectMapper.convertValue(usersRepository.save(u), UsersDTO.class);
     }
 
@@ -70,21 +67,28 @@ public class UsersService {
 
     public UsersEntity validateAndSetDocument (UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
 
-        if (usersCreateDTO.getType()){
-            CNPJ cnpj = new CNPJ(usersCreateDTO.getDocument());
-            if (!cnpj.isCNPJ()){
-                throw new BusinessRuleException("CNPJ Invalido!");
-            }
-            usersCreateDTO.setDocument(cnpj.getCNPJ(false));
-        } else {
-            CPF cpf = new CPF(usersCreateDTO.getDocument());
-            if (!cpf.isCPF()){
-                throw new BusinessRuleException("CPF Invalido!");
-            }
-            usersCreateDTO.setDocument(cpf.getCPF(false));
-        }
+        UsersEntity usersEntity = objectMapper.convertValue(usersCreateDTO, UsersEntity.class);
 
-        return objectMapper.convertValue(usersCreateDTO, UsersEntity.class);
+        CNPJ cnpj = new CNPJ(usersEntity.getDocument());
+        CPF cpf = new CPF(usersEntity.getDocument());
+
+        if (cnpj.isCNPJ()){
+
+            usersEntity.setType(true);
+            usersEntity.setDocument(cnpj.getCNPJ(false));
+            return usersEntity;
+
+        } else if (!cpf.isCPF()){
+
+            usersEntity.setType(false);
+            usersEntity.setDocument(cpf.getCPF(false));
+            return usersEntity;
+
+        } else {
+            throw new BusinessRuleException("CPF ou CNPJ invalido!");
+        }
     }
+
+
 
 }

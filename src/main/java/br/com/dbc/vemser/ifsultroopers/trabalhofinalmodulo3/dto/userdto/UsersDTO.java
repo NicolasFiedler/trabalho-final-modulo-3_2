@@ -8,4 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 public class UsersDTO extends UsersCreateDTO {
     private Integer idUser;
+    private Boolean type;
 }

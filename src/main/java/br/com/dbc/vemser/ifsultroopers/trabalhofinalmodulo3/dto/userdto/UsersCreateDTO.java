@@ -24,9 +24,6 @@ public class UsersCreateDTO {
     @Size(min = 8)
     private String password;
 
-    @BooleanFlag
-    private Boolean type;
-
     @NotNull
     @NotEmpty
     private String document;
