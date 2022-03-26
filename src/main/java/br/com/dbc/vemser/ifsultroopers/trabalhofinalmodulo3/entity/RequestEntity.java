@@ -30,8 +30,11 @@ public class RequestEntity {
     @Column(name = "reached_value")
     private Double reachedValue;
 
-    @Column(name = "id_user")
+    @Column(name = "id_user", insertable = false, updatable = false)
     private Integer idUser;
+
+    @Column(name = "status_request")
+    private boolean statusRequest;
 
     @Column(name = "id_category")
     @Enumerated(EnumType.ORDINAL)
