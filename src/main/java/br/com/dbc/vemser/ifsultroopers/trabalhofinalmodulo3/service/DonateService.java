@@ -68,10 +68,10 @@ public class DonateService {
         return donateDTO;
     }
 
-    //    public void RequestDTO incrementReachedValue(Integer idRequest, Double donateValue) throws Exception{
-//        RequestDTO requestDTO = requestService.findById(idRequest)
-//                .orElseThrow(()->new BusinessRuleException("Request não encontrada!"));
-//        requestDTO.setReachedValue(requestDTO.getReachedValue()+donateValue);
-//        requestService.update(idRequest, requestDTO);
-//    }
+        public void RequestDTO incrementReachedValue(Integer idRequest, Double donateValue) throws Exception{
+        RequestDTO requestDTO = requestService.findById(idRequest)
+                .orElseThrow(()->new BusinessRuleException("Request não encontrada!"));
+        requestDTO.setReachedValue(requestDTO.getReachedValue()+donateValue);
+        requestService.update(idRequest, requestDTO);
+    }
 }

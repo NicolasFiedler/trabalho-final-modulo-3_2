@@ -1,10 +1,13 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestUpdateDTO {
 
     @Size(max = 250)

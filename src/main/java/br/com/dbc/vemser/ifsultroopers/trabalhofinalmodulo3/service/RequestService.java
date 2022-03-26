@@ -8,13 +8,17 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.RequestRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Getter
+@Setter
 public class RequestService {
     
     private RequestRepository requestRepository;
@@ -38,11 +42,11 @@ public class RequestService {
         return objectMapper.convertValue(requestEntity, RequestDTO.class);
     }
 
-    public RequestDTO create(Integer id, RequestCreateDTO request) throws BusinessRuleException {
-        RequestEntity requestEntity = objectMapper.convertValue(request, RequestEntity.class);
-        RequestEntity created = requestRepository.save(requestEntity);
-        return objectMapper.convertValue(created, RequestDTO.class);
-    }
+//    public RequestDTO create(Integer id, RequestCreateDTO request) throws BusinessRuleException {
+//        RequestEntity requestEntity = objectMapper.convertValue(request, RequestEntity.class);
+//        RequestEntity created = requestRepository.save(requestEntity);
+//        return objectMapper.convertValue(created, RequestDTO.class);
+//    }
 
     public RequestDTO update(Integer id, RequestUpdateDTO request) throws BusinessRuleException {
         RequestEntity requestEntity = requestRepository.findById(id)
@@ -64,13 +68,13 @@ public class RequestService {
 
 //    Tava fazendo mas travei
 
-//    public RequestDTO incrementReachedValue(Integer id, Double currentValue) throws BusinessRuleException {
-//        RequestEntity requestEntity = requestRepository.findById(id)
-//                .orElseThrow(() -> new BusinessRuleException("Vaquinha não encontrada!"));
-//        Double newValue = requestEntity.getReachedValue()
-//        requestEntity.setReachedValue(newValue);
-//        return objectMapper.convertValue(currentValue, RequestDTO.class);
-//    }
+    public RequestDTO incrementReachedValue(Integer id, Double currentValue) throws BusinessRuleException {
+        RequestEntity requestEntity = requestRepository.findById(id)
+                .orElseThrow(() -> new BusinessRuleException("Vaquinha não encontrada!"));
+        Double newValue = requestEntity.getReachedValue();
+        requestEntity.setReachedValue(newValue);
+        return objectMapper.convertValue(currentValue, RequestDTO.class);
+    }
 
 
 //    Mesma coisa que acima

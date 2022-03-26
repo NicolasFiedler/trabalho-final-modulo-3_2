@@ -1,12 +1,15 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestCreateDTO {
 
     @NotEmpty

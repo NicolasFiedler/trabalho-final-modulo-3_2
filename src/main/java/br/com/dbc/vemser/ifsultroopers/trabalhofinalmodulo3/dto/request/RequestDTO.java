@@ -1,8 +1,11 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestDTO extends RequestCreateDTO {
 
     private Integer idRequest;
