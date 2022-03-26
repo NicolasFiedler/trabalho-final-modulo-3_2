@@ -1,6 +1,5 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestUpdateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
@@ -74,38 +73,5 @@ public class RequestService {
                 .orElseThrow(()-> new BusinessRuleException("Vaquinha não encontrada!"));
         requestEntity.setReachedValue(requestEntity.getReachedValue()+donateValue);
     }
-
-
-//    Mesma coisa que acima
-
-//    public List<RequestDTO> deleteAll(Integer id) throws BusinessRuleException {
-//        List<RequestEntity> list = requestRepository.deleteAll();
-//        return list.stream()
-//                .map(request -> objectMapper.convertValue(request, RequestDTO.class))
-//                .toList();
-//    }
-//
-
-//    Não mexi
-
-//    public List<RequestDTO> getByCategory(Integer id) throws BusinessRuleException {
-//        CategoryDTO categoryDTO = category.findById(id);
-//
-//        return requestRepository.getByCategory(id)
-//                .stream()
-//                .map(request -> objectMapper.convertValue(request, RequestDTO.class))
-//                .toList();
-//    }
-
-
-    // Não mexi
-
-//    public List<RequestDTO> getClosedList() {
-//        return requestRepository.getClosedList()
-//                .stream()
-//                .map(request -> objectMapper.convertValue(request, RequestDTO.class))
-//                .toList();
-//    }
-
 
 }

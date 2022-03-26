@@ -30,7 +30,7 @@ public class DonateEntity {
     @Column(name = "donate_value")
     private Double donateValue;
 
-    @Column(name = "description")
+    @Column(name = "donate_description")
     private String description;
 
     @JsonIgnore
