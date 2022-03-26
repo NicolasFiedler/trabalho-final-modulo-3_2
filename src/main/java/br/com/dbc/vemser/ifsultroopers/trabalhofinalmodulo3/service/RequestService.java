@@ -1,90 +1,106 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.category.CategoryDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestUpdateDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.RequestRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RequestService {
-
-    @Autowired
-    private RequestRepository repo;
-
-    @Autowired
+    
+    private RequestRepository requestRepository;
+    
     private UsersService usersService;
+    
+    private Category category;
 
-    @Autowired
-    private CategoryService categoryService;
-
-// SERÁ GURIZADA
-
-    @Autowired
-    private ObjectMapper mapper;
+    private ObjectMapper objectMapper;
 
     public List<RequestDTO> get() {
-        return repo.getAll()
+        return requestRepository.findAll()
                 .stream()
-                .map(request -> mapper.convertValue(request, RequestDTO.class))
+                .map(requestEntity -> objectMapper.convertValue(requestEntity, RequestDTO.class))
                 .toList();
     }
 
-    public RequestDTO get(Integer id) throws Exception {
-        RequestEntity entity = repo.getById(id);
-        return mapper.convertValue(entity, RequestDTO.class);
+    public RequestDTO getById(Integer id) throws BusinessRuleException {
+        RequestEntity requestEntity = requestRepository.findById(id)
+                .orElseThrow(() -> new BusinessRuleException("Vaquinha não encontrada!"));
+        return objectMapper.convertValue(requestEntity, RequestDTO.class);
     }
 
-    public RequestDTO add(Integer id, RequestCreateDTO request) throws Exception {
-        UsersDTO user = usersService.getById(id);
-
-        RequestEntity entity = mapper.convertValue(request, RequestEntity.class);
-        RequestEntity created = repo.create(id, entity);
-        return mapper.convertValue(created, RequestDTO.class);
+    public RequestDTO create(Integer id, RequestCreateDTO request) throws BusinessRuleException {
+        RequestEntity requestEntity = objectMapper.convertValue(request, RequestEntity.class);
+        RequestEntity created = requestRepository.save(requestEntity);
+        return objectMapper.convertValue(created, RequestDTO.class);
     }
 
-    public RequestDTO put(Integer id, RequestUpdateDTO request) throws Exception {
-        RequestEntity updated = repo.update(id, request);
-        return mapper.convertValue(updated, RequestDTO.class);
+    public RequestDTO update(Integer id, RequestUpdateDTO request) throws BusinessRuleException {
+        RequestEntity requestEntity = requestRepository.findById(id)
+                .orElseThrow(() -> new BusinessRuleException("Vaquinha não encontrada!"));
+        requestEntity.setTitle(request.getTitle());
+        requestEntity.setDescription(request.getDescription());
+        //TALVEZ VALIDAR P N MUDAR META SE FOR MENOR QUE O VALOR ATUAL ETC
+        requestEntity.setGoal(request.getGoal());
+        return objectMapper.convertValue(request, RequestDTO.class);
     }
 
-    public RequestDTO delete(Integer id) throws Exception {
-        RequestEntity requestEntity = repo.delete(id);
-        return mapper.convertValue(requestEntity, RequestDTO.class);
+    public RequestDTO delete(Integer id) throws BusinessRuleException {
+        RequestEntity requestEntity = requestRepository.findById(id)
+                .orElseThrow(()-> new BusinessRuleException("Vaquinha não encontrada!"));
+        requestRepository.deleteById(id);
+        return objectMapper.convertValue(requestEntity, RequestDTO.class);
     }
 
-    public RequestDTO incrementReachedValue(Integer id, Double value) throws Exception {
-        RequestEntity requestEntity = repo.incrementReachedValue(id, value);
-        return mapper.convertValue(requestEntity, RequestDTO.class);
-    }
 
-    public List<RequestDTO> deleteAll(Integer id) throws Exception {
-        List<RequestEntity> list = repo.deleteAll(id);
-        return list.stream()
-                .map(request -> mapper.convertValue(request, RequestDTO.class))
-                .toList();
-    }
+//    Tava fazendo mas travei
 
-    public List<RequestDTO> getByCategory(Integer id) throws Exception {
-        CategoryDTO categoryDTO = categoryService.findById(id);
+//    public RequestDTO incrementReachedValue(Integer id, Double currentValue) throws BusinessRuleException {
+//        RequestEntity requestEntity = requestRepository.findById(id)
+//                .orElseThrow(() -> new BusinessRuleException("Vaquinha não encontrada!"));
+//        Double newValue = requestEntity.getReachedValue()
+//        requestEntity.setReachedValue(newValue);
+//        return objectMapper.convertValue(currentValue, RequestDTO.class);
+//    }
 
-        return repo.getByCategory(id)
-                .stream()
-                .map(request -> mapper.convertValue(request, RequestDTO.class))
-                .toList();
-    }
 
-    public List<RequestDTO> getClosedList() {
-        return repo.getClosedList()
-                .stream()
-                .map(request -> mapper.convertValue(request, RequestDTO.class))
-                .toList();
-    }
+//    Mesma coisa que acima
+
+//    public List<RequestDTO> deleteAll(Integer id) throws BusinessRuleException {
+//        List<RequestEntity> list = requestRepository.deleteAll();
+//        return list.stream()
+//                .map(request -> objectMapper.convertValue(request, RequestDTO.class))
+//                .toList();
+//    }
+//
+
+//    Não mexi
+
+//    public List<RequestDTO> getByCategory(Integer id) throws BusinessRuleException {
+//        CategoryDTO categoryDTO = category.findById(id);
+//
+//        return requestRepository.getByCategory(id)
+//                .stream()
+//                .map(request -> objectMapper.convertValue(request, RequestDTO.class))
+//                .toList();
+//    }
+
+
+    // Não mexi
+
+//    public List<RequestDTO> getClosedList() {
+//        return requestRepository.getClosedList()
+//                .stream()
+//                .map(request -> objectMapper.convertValue(request, RequestDTO.class))
+//                .toList();
+//    }
 }

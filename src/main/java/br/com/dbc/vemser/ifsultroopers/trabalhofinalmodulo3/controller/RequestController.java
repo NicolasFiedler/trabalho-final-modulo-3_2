@@ -7,7 +7,7 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.RequestServi
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +17,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/request")
+@RequiredArgsConstructor
 public class RequestController {
 
-    @Autowired
-    private RequestService service;
+    private final RequestService service;
 
     @ApiOperation(value = "Retorna uma lista de vakinhas")
     @ApiResponses(value = {
@@ -60,7 +60,7 @@ public class RequestController {
     @Validated
     public ResponseEntity<RequestDTO> post(@PathVariable("idUser") Integer id,
                                            @RequestBody @Valid RequestCreateDTO request) throws Exception {
-        RequestDTO created = service.add(id, request);
+        RequestDTO created = service.create(id, request);
         return ResponseEntity.ok(created);
     }
 
@@ -73,7 +73,7 @@ public class RequestController {
     @Validated
     public ResponseEntity<RequestDTO> put(@PathVariable("idRequest") Integer id,
                                           @RequestBody @Valid RequestUpdateDTO data) throws Exception {
-        RequestDTO updated = service.put(id, data);
+        RequestDTO updated = service.update(id, data);
         return ResponseEntity.ok(updated);
     }
 
