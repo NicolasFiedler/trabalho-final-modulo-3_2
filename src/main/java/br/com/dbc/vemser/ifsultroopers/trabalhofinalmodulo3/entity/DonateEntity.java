@@ -27,10 +27,10 @@ public class DonateEntity {
     @Column(name = "donator_email")
     private String donatorEmail;
 
-    @Column(name = "id_donate")
+    @Column(name = "donate_value")
     private Double donateValue;
 
-    @Column(name = "id_donate")
+    @Column(name = "description")
     private String description;
 
     @JsonIgnore
