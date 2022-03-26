@@ -1,8 +1,11 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UsersDTO extends UsersCreateDTO {
     private Integer idUser;
 }
