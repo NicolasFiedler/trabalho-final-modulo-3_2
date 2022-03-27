@@ -21,8 +21,8 @@ public class RequestCreateDTO {
     @NotNull
     private Double goal;
 
-    @NotNull
-    private Category category;
+//    @NotNull
+//    private Category category;
 
     @NotNull
     private Integer idBankAccount;

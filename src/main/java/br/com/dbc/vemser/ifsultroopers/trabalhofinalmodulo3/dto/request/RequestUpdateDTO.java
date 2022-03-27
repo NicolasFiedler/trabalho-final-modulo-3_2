@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request;
 
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
 import lombok.*;
 
 import javax.validation.constraints.Size;
@@ -14,4 +15,5 @@ public class RequestUpdateDTO {
     private String title;
     private String description;
     private Double goal;
+    private Category category;
 }

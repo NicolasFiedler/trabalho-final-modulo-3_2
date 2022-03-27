@@ -38,11 +38,12 @@ public class RequestService {
                 .collect(Collectors.toList());
     }
 
-    public RequestDTO create(Integer id, RequestCreateDTO request) throws BusinessRuleException {
+    public RequestDTO create(Integer id, RequestCreateDTO request, Category category) throws BusinessRuleException {
         RequestEntity requestEntity = objectMapper.convertValue(request, RequestEntity.class);
         requestEntity.setIdUser(id);
         requestEntity.setReachedValue(0.00);
         requestEntity.setStatusRequest(true);
+        requestEntity.setCategory(category);
         RequestEntity created = requestRepository.save(requestEntity);
         return objectMapper.convertValue(created, RequestDTO.class);
     }

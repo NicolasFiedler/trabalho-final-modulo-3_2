@@ -3,6 +3,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.controller;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestUpdateDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.RequestService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -62,8 +63,8 @@ public class RequestController {
     @PostMapping("/{idUser}")
     @Validated
     public ResponseEntity<RequestDTO> create(@PathVariable("idUser") Integer id,
-                                           @RequestBody @Valid RequestCreateDTO request) throws Exception {
-        RequestDTO created = requestService.create(id, request);
+                                           @RequestBody @Valid RequestCreateDTO request, @RequestParam Category category) throws Exception {
+        RequestDTO created = requestService.create(id, request, category);
 
         return ResponseEntity.ok(created);
     }

@@ -2,7 +2,6 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Arrays;
 
@@ -13,13 +12,13 @@ public enum Category {
     COMBATE_A_FOME("Combate a Fome",0),
     CRIANÇAS("Crianças",1),
     ENFERMOS("Enfermos",2),
-    COMBATE_A_COVID_19("Combate a COVID-19",2),
-    CAUSAS_AMBIENTAIS("Causas Ambientais",3),
-    SOBREVIVENTES_DE_GUERRA("Sobreviventes de Guerra",4),
-    ANIMAIS("Animais",5),
-    SONHOS("Sonhos",6),
-    POBREZA("Pobreza",7),
-    OUTROS("Outros",8);
+    COMBATE_A_COVID_19("Combate a COVID-19",3),
+    CAUSAS_AMBIENTAIS("Causas Ambientais",4),
+    SOBREVIVENTES_DE_GUERRA("Sobreviventes de Guerra",5),
+    ANIMAIS("Animais",6),
+    SONHOS("Sonhos",7),
+    POBREZA("Pobreza",8),
+    OUTROS("Outros",9);
 
     private String description;
     private Integer type;
