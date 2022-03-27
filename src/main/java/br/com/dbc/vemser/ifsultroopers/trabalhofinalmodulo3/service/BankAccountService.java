@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BankAccountService {
+
     private final BankAccountRepository bankAccountRepository;
     private final ObjectMapper objectMapper;
 
@@ -28,9 +29,12 @@ public class BankAccountService {
 
     public BankAccountDTO update(Integer id,
                                  BankAccountCreateDTO bankAccountUpdate) throws Exception {
-        BankAccountEntity bankAccountEntity = objectMapper.convertValue(bankAccountUpdate, BankAccountEntity.class);
+        BankAccountDTO bankAccountDTO = getBankAccountById(id);
+        bankAccountDTO.setAccountNumber(bankAccountUpdate.getAccountNumber());
+        bankAccountDTO.setAgency(bankAccountUpdate.getAgency());
+        BankAccountEntity bankAccountEntity = objectMapper.convertValue(bankAccountDTO, BankAccountEntity.class);
         bankAccountRepository.save(bankAccountEntity);
-        return objectMapper.convertValue(bankAccountUpdate, BankAccountDTO.class);
+        return bankAccountDTO;
     }
 
     public List<BankAccountDTO>list(){

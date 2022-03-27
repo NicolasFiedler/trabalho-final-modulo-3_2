@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.controller;
 
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.bankaccount.BankAccountCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.bankaccount.BankAccountDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.BankAccountService;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/BankAccount") // localhost:8080/pessoa
+@RequestMapping("/BankAccount")
 @Validated
 @RequiredArgsConstructor
 public class BankAcountController {
@@ -28,10 +29,9 @@ public class BankAcountController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @PostMapping // localhost:8080/pessoa
-    public ResponseEntity<BankAccountDTO> create(@Valid @RequestBody BankAccountDTO bankAccount) throws Exception {
+    @PostMapping
+    public ResponseEntity<BankAccountDTO> create(@Valid @RequestBody BankAccountCreateDTO bankAccount) throws Exception {
         BankAccountDTO bankAccountDTO = bankAccountService.create(bankAccount);
-//        emailService.pessoaSendEmail(pessoaDTO, "Seu cadastro foi realizado com sucesso, seu identificador é "+pessoaDTO.getIdPessoa()+".", "Cadastro");
         return ResponseEntity.ok(bankAccountDTO);
     }
 
@@ -41,7 +41,7 @@ public class BankAcountController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @GetMapping // localhost:8080/pessoa
+    @GetMapping
     public ResponseEntity<List<BankAccountDTO>> list() {
         return ResponseEntity.ok(bankAccountService.list());
     }
@@ -64,10 +64,9 @@ public class BankAcountController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @PutMapping("/{idBankAccount}") // localhost:8080/pessoa/1000
+    @PutMapping("/{idBankAccount}")
     public ResponseEntity<BankAccountDTO> update(@PathVariable("idBankAccount") Integer id,
-                                            @Valid @RequestBody BankAccountDTO bankAccountDTO) throws Exception {
-//        emailService.pessoaSendEmail(pessoaAtualizar, "Seus dados foram atualizados no nosso sistema.", "Atualização de dados");
+                                            @Valid @RequestBody BankAccountCreateDTO bankAccountDTO) throws Exception {
         return  ResponseEntity.ok(bankAccountService.update(id, bankAccountDTO));
     }
 
@@ -77,7 +76,7 @@ public class BankAcountController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @DeleteMapping("/{idBankAccount}") // localhost:8080/pessoa/10
+    @DeleteMapping("/{idBankAccount}")
     public ResponseEntity<BankAccountDTO> delete(@PathVariable("idBankAccount") Integer id) throws Exception {
         BankAccountDTO bankAccountDTO = bankAccountService.delete(id);
 //        emailService.pessoaSendEmail(pessoaDTO, "Você perdeu o acesso ao nosso sistema.", " Delet de conta");
