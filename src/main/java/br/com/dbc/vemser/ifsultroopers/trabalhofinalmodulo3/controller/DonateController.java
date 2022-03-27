@@ -30,10 +30,9 @@ public class DonateController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @PostMapping // localhost:8080/pessoa
-    public ResponseEntity<DonateDTO> create(@Valid @RequestBody DonateCreateDTO donate) throws Exception {
-        DonateDTO donateDTO = donateService.create(donate);
-//        emailService.pessoaSendEmail(pessoaDTO, "Seu cadastro foi realizado com sucesso, seu identificador é "+pessoaDTO.getIdPessoa()+".", "Cadastro");
+    @PostMapping("/{idRequest}")
+    public ResponseEntity<DonateDTO> create(@Valid @RequestBody DonateCreateDTO donate, @PathVariable("idRequest") Integer idRequest) throws Exception {
+        DonateDTO donateDTO = donateService.create(donate,idRequest);
        return ResponseEntity.ok(donateDTO);
     }
 
@@ -66,7 +65,7 @@ public class DonateController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @PutMapping("/{idDonate}") // localhost:8080/pessoa/1000
+    @PutMapping("/{idDonate}")
     public ResponseEntity<DonateDTO> update(@PathVariable("idDonate") Integer id,
                                             @Valid @RequestBody DonateCreateDTO donateCreateDTO) throws Exception {
 //        emailService.pessoaSendEmail(pessoaAtualizar, "Seus dados foram atualizados no nosso sistema.", "Atualização de dados");
@@ -79,7 +78,7 @@ public class DonateController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @DeleteMapping("/{idDonate}") // localhost:8080/pessoa/10
+    @DeleteMapping("/{idDonate}")
     public ResponseEntity<DonateDTO> delete(@PathVariable("idDonate") Integer id) throws Exception {
         DonateDTO donateDTO = donateService.delete(id);
 //        emailService.pessoaSendEmail(pessoaDTO, "Você perdeu o acesso ao nosso sistema.", " Delet de conta");

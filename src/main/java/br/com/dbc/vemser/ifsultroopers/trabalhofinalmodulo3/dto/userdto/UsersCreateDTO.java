@@ -1,6 +1,5 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto;
 
-import jdk.jfr.BooleanFlag;
 import lombok.*;
 
 import javax.validation.constraints.*;

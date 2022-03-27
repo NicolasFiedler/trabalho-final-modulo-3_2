@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +21,6 @@ import java.util.List;
 public class BankAcountController {
 
     private final BankAccountService bankAccountService;
-
-//    private final EmailService emailService;
 
     @ApiOperation(value = "Cria e retorna a Bank Account criada")
     @ApiResponses(value = {

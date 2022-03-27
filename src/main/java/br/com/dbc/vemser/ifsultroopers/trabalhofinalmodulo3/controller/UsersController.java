@@ -2,6 +2,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.controller;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersWithRequestsDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.UsersService;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +34,22 @@ public class UsersController {
         return usersService.list();
     }
 
+    //TODO - idBankAccount vem null
+    @GetMapping("/users-with-requests")
+    public List<UsersWithRequestsDTO> listUsersWithRequests(@RequestParam(value = "id", required = false) Integer idUser) throws BusinessRuleException {
+        return usersService.listWithRequests(idUser);
+    }
+
+    @GetMapping("/cpf-users")
+    public List<UsersDTO> listUsersWithCPF () {
+        return usersService.listByUserType(false);
+    }
+
+    @GetMapping("/cnpj-users")
+    public List<UsersDTO> listUsersWithCNPJ () {
+        return usersService.listByUserType(true);
+    }
+
     @ApiOperation(value = "Retorna um usuario pelo ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna um usuario"),
@@ -60,7 +77,7 @@ public class UsersController {
             @ApiResponse(code = 400, message = "CPF ou CNPJ Invalido")
     })
     @PutMapping("/{idUser}")
-    public UsersDTO update (@PathVariable("idUser") Integer id, @Valid UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
+    public UsersDTO update (@PathVariable("idUser") Integer id, @Valid @RequestBody UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
         return usersService.update(id, usersCreateDTO);
     }
 

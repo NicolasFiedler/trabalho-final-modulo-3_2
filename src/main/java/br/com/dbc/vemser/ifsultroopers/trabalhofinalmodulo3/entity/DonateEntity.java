@@ -36,5 +36,6 @@ public class DonateEntity {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_request", referencedColumnName = "id_request")
-    private RequestEntity request;
+    private RequestEntity requestEntity;
+
 }
