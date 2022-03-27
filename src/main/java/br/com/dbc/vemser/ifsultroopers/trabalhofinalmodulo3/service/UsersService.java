@@ -1,7 +1,10 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersWithRequestsDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.UsersEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.documents.CNPJ;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.documents.CPF;
@@ -10,7 +13,10 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.UsersRepo
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +31,39 @@ public class UsersService {
                 .toList();
     }
 
+    public List<UsersWithRequestsDTO> listWithRequests (Integer idUser) throws BusinessRuleException {
+        List<UsersWithRequestsDTO> usersWithRequestsDTOList = new ArrayList<>();
+        if (idUser == null){
+            usersWithRequestsDTOList.addAll(usersRepository.findAll().stream()
+                    .map(usersEntity -> {
+                        UsersWithRequestsDTO usersWithRequestsDTO = objectMapper.convertValue(usersEntity, UsersWithRequestsDTO.class);
+                        usersWithRequestsDTO.setRequests(usersEntity.getRequests().stream()
+                                .map(requestEntity -> objectMapper.convertValue(requestEntity, RequestDTO.class))
+                                .collect(Collectors.toList())
+                        );
+
+                        return usersWithRequestsDTO;
+                    }).collect(Collectors.toList())
+            );
+        } else {
+            UsersEntity usersEntity = usersRepository.findById(idUser)
+                    .orElseThrow(() -> new BusinessRuleException("Usuario não econtrado!"));
+            UsersWithRequestsDTO usersWithRequestsDTO = objectMapper.convertValue(usersEntity, UsersWithRequestsDTO.class);
+            usersWithRequestsDTO.setRequests(usersEntity.getRequests().stream()
+                    .map(requestEntity -> objectMapper.convertValue(requestEntity, RequestDTO.class))
+                    .collect(Collectors.toList())
+            );
+            usersWithRequestsDTOList.add(usersWithRequestsDTO);
+        }
+        return usersWithRequestsDTOList;
+    }
+
+    public List<UsersDTO> listByUserType (Boolean type) {
+        return usersRepository.findByType(type).stream()
+                .map(this::formatUserDTODocument)
+                .collect(Collectors.toList());
+    }
+
     public UsersDTO getById (Integer id) throws BusinessRuleException {
         UsersEntity usersEntity = usersRepository.findById(id)
                 .orElseThrow(() -> new BusinessRuleException("Usuario nao encontrado!"));
@@ -33,15 +72,15 @@ public class UsersService {
     }
 
     public UsersDTO create (UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
-        UsersEntity u = validateAndSetDocument(usersCreateDTO);
-        return formatUserDTODocument(usersRepository.save(u));
+        UsersEntity u = objectMapper.convertValue(usersCreateDTO, UsersEntity.class);
+        return formatUserDTODocument(usersRepository.save(validateAndSetDocument(u)));
     }
 
     public UsersDTO update (Integer id, UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
         getById(id);
-        UsersEntity u = validateAndSetDocument(usersCreateDTO);
+        UsersEntity u = objectMapper.convertValue(usersCreateDTO, UsersEntity.class);
         u.setIdUser(id);
-        return formatUserDTODocument(usersRepository.save(u));
+        return formatUserDTODocument(usersRepository.save(validateAndSetDocument(u)));
     }
 
     public UsersDTO delete (Integer id) throws BusinessRuleException {
@@ -50,7 +89,9 @@ public class UsersService {
         return u;
     }
 
-    public UsersDTO formatUserDTODocument (UsersEntity usersEntity) {
+
+
+    private UsersDTO formatUserDTODocument (UsersEntity usersEntity) {
         if ((usersEntity.getType())){
             CNPJ cnpj = new CNPJ(usersEntity.getDocument());
             usersEntity.setDocument(cnpj.getCNPJ(true));
@@ -61,17 +102,14 @@ public class UsersService {
         return objectMapper.convertValue(usersEntity, UsersDTO.class);
     }
 
-    public UsersEntity validateAndSetDocument (UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
-
-        UsersEntity usersEntity = objectMapper.convertValue(usersCreateDTO, UsersEntity.class);
+    private UsersEntity validateAndSetDocument (UsersEntity usersEntity) throws BusinessRuleException {
 
         CNPJ cnpj = new CNPJ(usersEntity.getDocument());
         CPF cpf = new CPF(usersEntity.getDocument());
 
         if (cnpj.isCNPJ()){
-            //TODO - resolver update caso ele mesmo
             UsersEntity u = usersRepository.findByDocument(cnpj.getCNPJ(false));
-            if (u != null ){
+            if (u != null && validUpdateDocument(u)){
                 throw new BusinessRuleException("CNPJ Invalido!");
             }
             usersEntity.setType(true);
@@ -79,8 +117,8 @@ public class UsersService {
             return usersEntity;
 
         } else if (cpf.isCPF()){
-
-            if (usersRepository.findByDocument(cpf.getCPF(false)) != null){
+            UsersEntity u = usersRepository.findByDocument(cpf.getCPF(false));
+            if (u != null && validUpdateDocument(u)){
                 throw new BusinessRuleException("CPF Invalido!");
             }
             usersEntity.setType(false);
@@ -92,6 +130,12 @@ public class UsersService {
         }
     }
 
-
+    private Boolean validUpdateDocument (UsersEntity usersEntity) throws BusinessRuleException {
+         if (usersEntity.getIdUser() != null) {
+            UsersEntity u = objectMapper.convertValue(getById(usersEntity.getIdUser()), UsersEntity.class);
+             return !usersEntity.getDocument().equals(u.getDocument());
+         }
+        return true;
+    }
 
 }
