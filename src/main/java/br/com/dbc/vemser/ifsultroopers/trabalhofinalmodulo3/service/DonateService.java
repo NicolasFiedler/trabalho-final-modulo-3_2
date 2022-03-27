@@ -6,12 +6,16 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.DonateEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.DonateRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
 @Service
 @RequiredArgsConstructor
 public class DonateService {
@@ -35,13 +39,13 @@ public class DonateService {
                             DonateCreateDTO donateUpdate) throws Exception {
         DonateEntity donateEntity = donateRepository.findById(id)
                 .orElseThrow(()->new BusinessRuleException("Donate não encontrada!"));
-        donateEntity.setDonateValue(donateUpdate.getDonate_value());
+        donateEntity.setDonateValue(donateUpdate.getDonateValue());
         donateEntity.setDescription(donateUpdate.getDescription());
-        donateEntity.setDonatorEmail(donateUpdate.getDonator_email());
-        donateEntity.setDonatorName(donateUpdate.getDonator_name());
-        requestService.incrementReachedValue(donateEntity.getIdRequest(), donateUpdate.getDonate_value());
+        donateEntity.setDonatorEmail(donateUpdate.getDonatorEmail());
+        donateEntity.setDonatorName(donateUpdate.getDonatorName());
+        requestService.incrementReachedValue(donateEntity.getIdRequest(), donateUpdate.getDonateValue());
 
-        return  objectMapper.convertValue(donateEntity, DonateDTO.class);
+        return  objectMapper.convertValue(donateRepository.save(donateEntity), DonateDTO.class);
     }
 
     public List<DonateDTO>list(){

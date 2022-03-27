@@ -43,7 +43,7 @@ public class DonateController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @GetMapping // localhost:8080/pessoa
+    @GetMapping
     public ResponseEntity<List<DonateDTO>> list() {
         return ResponseEntity.ok(donateService.list());
     }

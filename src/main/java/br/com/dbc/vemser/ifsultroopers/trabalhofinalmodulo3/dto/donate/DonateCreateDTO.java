@@ -13,11 +13,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class DonateCreateDTO {
     @NotEmpty @NotNull
-    private String donator_name;
+    private String donatorName;
     @Email
-    private String donator_email;
+    private String donatorEmail;
     @NotNull @Min(1)
-    private Double donate_value;
+    private Double donateValue;
     @NotEmpty
     private String description;
     @NotNull

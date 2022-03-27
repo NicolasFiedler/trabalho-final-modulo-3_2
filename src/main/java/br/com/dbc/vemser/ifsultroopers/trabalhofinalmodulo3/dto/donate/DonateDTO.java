@@ -1,6 +1,5 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate;
 
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateCreateDTO;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -10,5 +9,5 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class DonateDTO extends DonateCreateDTO {
     @NotNull
-    private Integer id_donate;
+    private Integer idDonate;
 }
