@@ -20,6 +20,4 @@ public class DonateCreateDTO {
     private Double donateValue;
     @NotEmpty
     private String description;
-    @NotNull
-    private Integer idRequest;
 }

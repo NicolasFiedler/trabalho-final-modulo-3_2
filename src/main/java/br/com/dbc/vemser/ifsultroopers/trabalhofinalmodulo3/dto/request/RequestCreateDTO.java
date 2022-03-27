@@ -24,6 +24,5 @@ public class RequestCreateDTO {
 //    @NotNull
 //    private Category category;
 
-    @NotNull
     private Integer idBankAccount;
 }

@@ -7,7 +7,6 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersCre
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.UsersEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.RequestRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,6 +74,7 @@ public class RequestService {
         RequestEntity requestEntity = requestRepository.findById(idRequest)
                 .orElseThrow(() -> new BusinessRuleException("Vakinha não encontrada!"));
         requestEntity.setReachedValue(requestEntity.getReachedValue() + donateValue);
+        requestRepository.save(requestEntity);
     }
 
 }

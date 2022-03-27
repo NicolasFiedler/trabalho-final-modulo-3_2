@@ -2,10 +2,13 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.DonateEntity;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.DonateRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -14,8 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
 @Service
 @RequiredArgsConstructor
 public class DonateService {
@@ -26,13 +27,16 @@ public class DonateService {
 
     private final RequestService requestService;
 
-    public DonateDTO create(DonateCreateDTO donateCreate) throws Exception {
+    public DonateDTO create(DonateCreateDTO donateCreate, Integer idRequest) throws Exception {
 
         DonateEntity donateEntity = objectMapper.convertValue(donateCreate, DonateEntity.class);
-        requestService.incrementReachedValue(donateEntity.getIdRequest(), donateEntity.getDonateValue());
-        DonateEntity donateEntityCreated = donateRepository.save(donateEntity);
+        RequestEntity requestEntity = objectMapper.convertValue(requestService.getById(idRequest), RequestEntity.class);
+        donateEntity.setIdRequest(idRequest);
+        donateEntity.setRequestEntity(requestEntity);
+        requestService.incrementReachedValue(idRequest, donateEntity.getDonateValue());
 
-        return  objectMapper.convertValue(donateEntityCreated, DonateDTO.class);
+        DonateDTO donateDTO = objectMapper.convertValue(donateRepository.save(donateEntity), DonateDTO.class);
+        return  donateDTO;
     }
 
     public DonateDTO update(Integer id,

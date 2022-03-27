@@ -52,6 +52,6 @@ public class RequestEntity {
     private UsersEntity usersEntity;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "requestEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<DonateEntity> donates;
 }
