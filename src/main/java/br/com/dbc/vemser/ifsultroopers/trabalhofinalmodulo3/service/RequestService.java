@@ -41,6 +41,8 @@ public class RequestService {
     public RequestDTO create(Integer id, RequestCreateDTO request) throws BusinessRuleException {
         RequestEntity requestEntity = objectMapper.convertValue(request, RequestEntity.class);
         requestEntity.setIdUser(id);
+        requestEntity.setReachedValue(0.00);
+        requestEntity.setStatusRequest(true);
         RequestEntity created = requestRepository.save(requestEntity);
         return objectMapper.convertValue(created, RequestDTO.class);
     }

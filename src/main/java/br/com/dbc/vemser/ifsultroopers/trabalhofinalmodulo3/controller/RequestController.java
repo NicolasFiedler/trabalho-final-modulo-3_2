@@ -64,6 +64,7 @@ public class RequestController {
     public ResponseEntity<RequestDTO> create(@PathVariable("idUser") Integer id,
                                            @RequestBody @Valid RequestCreateDTO request) throws Exception {
         RequestDTO created = requestService.create(id, request);
+
         return ResponseEntity.ok(created);
     }
 

@@ -1,5 +1,7 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request;
 
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.BankAccountEntity;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -20,5 +22,8 @@ public class RequestCreateDTO {
     private Double goal;
 
     @NotNull
-    private Integer idCategory;
+    private Category category;
+
+    @NotNull
+    private Integer idBankAccount;
 }
