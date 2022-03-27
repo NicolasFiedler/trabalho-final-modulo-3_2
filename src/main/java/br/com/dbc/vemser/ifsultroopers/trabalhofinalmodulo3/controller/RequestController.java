@@ -3,6 +3,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.controller;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestUpdateDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.BankAccountEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.RequestService;
 import io.swagger.annotations.ApiOperation;
@@ -63,7 +64,7 @@ public class RequestController {
     @PostMapping("/{idUser}")
     @Validated
     public ResponseEntity<RequestDTO> create(@PathVariable("idUser") Integer id,
-                                           @RequestBody @Valid RequestCreateDTO request, @RequestParam Category category) throws Exception {
+                                             @RequestBody @Valid RequestCreateDTO request, @RequestParam Category category) throws Exception {
         RequestDTO created = requestService.create(id, request, category);
 
         return ResponseEntity.ok(created);
@@ -77,8 +78,8 @@ public class RequestController {
     @PutMapping("/{idRequest}")
     @Validated
     public ResponseEntity<RequestDTO> update(@PathVariable("idRequest") Integer id,
-                                          @RequestBody @Valid RequestUpdateDTO data) throws Exception {
-        RequestDTO updated = requestService.update(id, data);
+                                          @RequestBody @Valid RequestUpdateDTO data, @RequestParam Category category) throws Exception {
+        RequestDTO updated = requestService.update(id, data, category);
         return ResponseEntity.ok(updated);
     }
 

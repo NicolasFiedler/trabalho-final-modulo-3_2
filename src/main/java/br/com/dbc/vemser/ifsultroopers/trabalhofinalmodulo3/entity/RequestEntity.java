@@ -34,6 +34,9 @@ public class RequestEntity {
     @Column(name = "id_user", insertable = false, updatable = false)
     private Integer idUser;
 
+    @Column(name = "id_bank_account", insertable = false, updatable = false)
+    private Integer idBankAccount;
+
     @Column(name = "status_request")
     private boolean statusRequest;
 

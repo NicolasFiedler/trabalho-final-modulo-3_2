@@ -15,5 +15,4 @@ public class RequestUpdateDTO {
     private String title;
     private String description;
     private Double goal;
-    private Category category;
 }
