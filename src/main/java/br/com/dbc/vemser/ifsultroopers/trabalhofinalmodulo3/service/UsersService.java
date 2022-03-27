@@ -21,31 +21,27 @@ public class UsersService {
 
     public List<UsersDTO> list () {
         return usersRepository.findAll().stream()
-                .map(usersEntity -> {
-                    UsersDTO usersDTO = objectMapper.convertValue(usersEntity, UsersDTO.class);
-                    return formatUserDTODocument(usersDTO);
-                })
+                .map(this::formatUserDTODocument)
                 .toList();
     }
 
     public UsersDTO getById (Integer id) throws BusinessRuleException {
         UsersEntity usersEntity = usersRepository.findById(id)
                 .orElseThrow(() -> new BusinessRuleException("Usuario nao encontrado!"));
-        UsersDTO usersDTO = objectMapper.convertValue(usersEntity, UsersDTO.class);
 
-        return formatUserDTODocument(usersDTO);
+        return formatUserDTODocument(usersEntity);
     }
 
     public UsersDTO create (UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
         UsersEntity u = validateAndSetDocument(usersCreateDTO);
-        return objectMapper.convertValue(usersRepository.save(u), UsersDTO.class);
+        return formatUserDTODocument(usersRepository.save(u));
     }
 
     public UsersDTO update (Integer id, UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
         getById(id);
         UsersEntity u = validateAndSetDocument(usersCreateDTO);
         u.setIdUser(id);
-        return objectMapper.convertValue(usersRepository.save(u), UsersDTO.class);
+        return formatUserDTODocument(usersRepository.save(u));
     }
 
     public UsersDTO delete (Integer id) throws BusinessRuleException {
@@ -54,15 +50,15 @@ public class UsersService {
         return u;
     }
 
-    public UsersDTO formatUserDTODocument (UsersDTO usersDTO) {
-        if ((usersDTO.getType())){
-            CNPJ cnpj = new CNPJ(usersDTO.getDocument());
-            usersDTO.setDocument(cnpj.getCNPJ(true));
+    public UsersDTO formatUserDTODocument (UsersEntity usersEntity) {
+        if ((usersEntity.getType())){
+            CNPJ cnpj = new CNPJ(usersEntity.getDocument());
+            usersEntity.setDocument(cnpj.getCNPJ(true));
         } else {
-            CPF cpf = new CPF(usersDTO.getDocument());
-            usersDTO.setDocument(cpf.getCPF(true));
+            CPF cpf = new CPF(usersEntity.getDocument());
+            usersEntity.setDocument(cpf.getCPF(true));
         }
-        return usersDTO;
+        return objectMapper.convertValue(usersEntity, UsersDTO.class);
     }
 
     public UsersEntity validateAndSetDocument (UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
@@ -73,13 +69,20 @@ public class UsersService {
         CPF cpf = new CPF(usersEntity.getDocument());
 
         if (cnpj.isCNPJ()){
-
+            //TODO - resolver update caso ele mesmo
+            UsersEntity u = usersRepository.findByDocument(cnpj.getCNPJ(false));
+            if (u != null ){
+                throw new BusinessRuleException("CNPJ Invalido!");
+            }
             usersEntity.setType(true);
             usersEntity.setDocument(cnpj.getCNPJ(false));
             return usersEntity;
 
-        } else if (!cpf.isCPF()){
+        } else if (cpf.isCPF()){
 
+            if (usersRepository.findByDocument(cpf.getCPF(false)) != null){
+                throw new BusinessRuleException("CPF Invalido!");
+            }
             usersEntity.setType(false);
             usersEntity.setDocument(cpf.getCPF(false));
             return usersEntity;

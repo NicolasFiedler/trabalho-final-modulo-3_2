@@ -1,4 +1,4 @@
---CREATE SCHEMA VEM_SER;
+CREATE SCHEMA VEM_SER;
 --SET SCHEMA VEM_SER;
 --
 
@@ -97,7 +97,7 @@ INSERT INTO BANK_ACCOUNT (id_bank_account, account_number, agency)
 VALUES (nextval('bank_account_seq'), '1810256', '1008');
 INSERT INTO BANK_ACCOUNT (id_bank_account, account_number, agency)
 VALUES (nextval('bank_account_seq'), '7900255', '1205');
-	
+
 -- -----------------------------------------------------
 -- INSERT USER
 -- -----------------------------------------------------
@@ -114,16 +114,16 @@ VALUES (nextval('users_seq'), 'Rodrigo', 'rodrigo@gmail', '1234', true, '8211241
 -- -----------------------------------------------------
 -- INSERT REQUEST
 -- -----------------------------------------------------
-INSERT INTO REQUEST (id_request, title, request_description, goal, reached_value, id_category, id_bank_account, id_user)
-VALUES (nextval('request_seq'), 'Crianca faminta', ' Nao temos dinheiro para alimentar nossa filha de 3 anos', 50000, 0, 2, 1, 1);
-INSERT INTO REQUEST (id_request, title, request_description, goal, reached_value, id_category, id_bank_account, id_user)
-VALUES (nextval('request_seq'), 'Meu pai esta morrendo', ' Nao temos dinheiro para os remedios', 100000, 0, 3, 2, 2);
-INSERT INTO REQUEST (id_request, title, request_description, goal, reached_value, id_category, id_bank_account, id_user)
-VALUES (nextval('request_seq'), 'Anne nao tem fimilia, pais e comida', ' Uma refugiada Ucraniana de 7 anos, precisamos de dinheiro pra manter a ong', 200000, 0, 6, 3, 3);
+INSERT INTO REQUEST (id_request, title, request_description, goal, reached_value, status_request, id_category, id_bank_account, id_user)
+VALUES (nextval('request_seq'), 'Crianca faminta', ' Nao temos dinheiro para alimentar nossa filha de 3 anos', 50000, 0, true, 2, 1, 1);
+INSERT INTO REQUEST (id_request, title, request_description, goal, reached_value, status_request, id_category, id_bank_account, id_user)
+VALUES (nextval('request_seq'), 'Meu pai esta morrendo', ' Nao temos dinheiro para os remedios', 100000, 0, true, 3, 2, 2);
+INSERT INTO REQUEST (id_request, title, request_description, goal, reached_value, status_request, id_category, id_bank_account, id_user)
+VALUES (nextval('request_seq'), 'Anne nao tem fimilia, pais e comida', ' Uma refugiada Ucraniana de 7 anos, precisamos de dinheiro pra manter a ong', 200000, 0, true, 6, 3, 3);
 
 -- -----------------------------------------------------
 -- INSERT DONATE
--- -----------------------------------------------------	
+-- -----------------------------------------------------
 INSERT INTO DONATE (id_donate, id_request , donator_name, donator_email, donate_value, donate_description)
 VALUES (nextval('donate_seq'), 1, 'Ana', 'ana@gmail.com', 500.0, 'Boa sorte');
 INSERT INTO DONATE (id_donate, id_request ,donator_name, donator_email, donate_value, donate_description)
