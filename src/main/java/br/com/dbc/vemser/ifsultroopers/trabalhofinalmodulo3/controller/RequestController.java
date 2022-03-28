@@ -48,15 +48,6 @@ public class RequestController {
         return ResponseEntity.ok(request);
     }
 
-//    @ApiOperation(value = "Retorna a lista das vakinhas que já atingiram sua meta")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Retorna uma lista"),
-//    })
-//    @GetMapping("/closed")
-//    public List<RequestDTO> getClosedList() {
-//        return requestService.getClosedList();
-//    }
-//
     @ApiOperation(value = "Cria uma vakinha pelo id de um usuário")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a vakinha criada."),
@@ -112,5 +103,4 @@ public class RequestController {
     public ResponseEntity<List<RequestDTO>> findByStatusRequestIsFalse() {
         return ResponseEntity.ok(requestService.findByStatusRequestIsFalse());
     }
-
 }

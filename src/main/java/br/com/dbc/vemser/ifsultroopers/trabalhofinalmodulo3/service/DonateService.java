@@ -32,6 +32,8 @@ public class DonateService {
         requestService.incrementReachedValue(idRequest, donateEntity.getDonateValue());
 
         DonateDTO donateDTO = objectMapper.convertValue(donateRepository.save(donateEntity), DonateDTO.class);
+
+        requestService.checkClosed(idRequest);
         return  donateDTO;
     }
 
@@ -45,6 +47,7 @@ public class DonateService {
         donateEntity.setDonatorName(donateUpdate.getDonatorName());
         requestService.incrementReachedValue(donateEntity.getIdRequest(), donateUpdate.getDonateValue());
 
+        requestService.checkClosed(donateEntity.getIdRequest());
         return  objectMapper.convertValue(donateRepository.save(donateEntity), DonateDTO.class);
     }
 

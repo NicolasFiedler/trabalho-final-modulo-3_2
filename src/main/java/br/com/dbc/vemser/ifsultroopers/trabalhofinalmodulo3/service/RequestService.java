@@ -77,7 +77,7 @@ public class RequestService {
 
         return objectMapper.convertValue(requestRepository.save(requestEntity), RequestDTO.class);
     }
-
+    
     public RequestDTO delete(Integer id) throws BusinessRuleException {
         RequestEntity requestEntity = requestRepository.findById(id)
                 .orElseThrow(()-> new BusinessRuleException("Vakinha não encontrada!"));
@@ -85,7 +85,7 @@ public class RequestService {
         return objectMapper.convertValue(requestEntity, RequestDTO.class);
     }
 
-    public void incrementReachedValue(Integer idRequest, Double donateValue) throws Exception {
+    public void incrementReachedValue(Integer idRequest, Double donateValue) throws BusinessRuleException {
         RequestEntity requestEntity = requestRepository.findById(idRequest)
                 .orElseThrow(() -> new BusinessRuleException("Vakinha não encontrada!"));
         requestEntity.setReachedValue(requestEntity.getReachedValue() + donateValue);
@@ -106,7 +106,13 @@ public class RequestService {
                 .collect(Collectors.toList());
     }
 
+    public void checkClosed (Integer idRequest) throws BusinessRuleException {
+        RequestEntity requestEntity = requestRepository.findById(idRequest)
+                .orElseThrow(()-> new BusinessRuleException("Vakinha não encontrada!"));
 
-
+        if (requestEntity.getReachedValue() >= requestEntity.getGoal()) {
+            requestEntity.setStatusRequest(false);
+        }
+        requestRepository.save(requestEntity);
+    }
 }
-
