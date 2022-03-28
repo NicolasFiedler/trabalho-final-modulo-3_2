@@ -25,16 +25,20 @@ public class DonateService {
 
     public DonateDTO create(DonateCreateDTO donateCreate, Integer idRequest) throws Exception {
 
-        DonateEntity donateEntity = objectMapper.convertValue(donateCreate, DonateEntity.class);
         RequestEntity requestEntity = objectMapper.convertValue(requestService.getById(idRequest), RequestEntity.class);
-        donateEntity.setIdRequest(idRequest);
-        donateEntity.setRequestEntity(requestEntity);
-        requestService.incrementReachedValue(idRequest, donateEntity.getDonateValue());
 
-        DonateDTO donateDTO = objectMapper.convertValue(donateRepository.save(donateEntity), DonateDTO.class);
+        if(requestEntity.getStatusRequest()) {
+            DonateEntity donateEntity = objectMapper.convertValue(donateCreate, DonateEntity.class);
+            donateEntity.setIdRequest(idRequest);
+            donateEntity.setRequestEntity(requestEntity);
+            requestService.incrementReachedValue(idRequest, donateEntity.getDonateValue());
 
-        requestService.checkClosed(idRequest);
-        return  donateDTO;
+            DonateDTO donateDTO = objectMapper.convertValue(donateRepository.save(donateEntity), DonateDTO.class);
+
+            requestService.checkClosed(idRequest);
+
+        return  donateDTO;}
+        else {throw new BusinessRuleException("Vakinha indisponível!");}
     }
 
     public DonateDTO update(Integer id,

@@ -38,7 +38,7 @@ public class RequestEntity {
     private Integer idBankAccount;
 
     @Column(name = "status_request")
-    private boolean statusRequest;
+    private Boolean statusRequest;
 
     @Column(name = "id_category")
     @Enumerated(EnumType.ORDINAL)

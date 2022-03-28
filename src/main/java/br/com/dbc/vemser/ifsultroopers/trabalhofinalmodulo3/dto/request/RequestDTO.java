@@ -21,4 +21,7 @@ public class RequestDTO extends RequestCreateDTO {
 
     @ApiModelProperty(value = "Categoria")
     private Category category;
+
+    @ApiModelProperty(value = "Status")
+    private Boolean statusRequest;
 }
