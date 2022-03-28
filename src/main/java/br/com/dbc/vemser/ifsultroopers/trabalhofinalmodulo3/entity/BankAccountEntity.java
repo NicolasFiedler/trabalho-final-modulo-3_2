@@ -31,4 +31,5 @@ public class BankAccountEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "bankAccountEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RequestEntity> requests;
+
 }

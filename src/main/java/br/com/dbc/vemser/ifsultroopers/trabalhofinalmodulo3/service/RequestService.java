@@ -92,5 +92,21 @@ public class RequestService {
         requestRepository.save(requestEntity);
     }
 
+    public List<RequestDTO> findByStatusRequestIsTrue() {
+        return requestRepository.findByStatusRequestIsTrue()
+                .stream()
+                .map(requestEntity -> objectMapper.convertValue(requestEntity, RequestDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<RequestDTO> findByStatusRequestIsFalse() {
+        return requestRepository.findByStatusRequestIsFalse()
+                .stream()
+                .map(requestEntity -> objectMapper.convertValue(requestEntity, RequestDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+
 }
 

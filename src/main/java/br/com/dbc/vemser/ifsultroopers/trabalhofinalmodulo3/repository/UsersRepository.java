@@ -1,7 +1,6 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.UsersEntity;
-import org.apache.catalina.LifecycleState;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -94,4 +94,23 @@ public class RequestController {
         RequestDTO deleted = requestService.delete(id);
         return ResponseEntity.ok(deleted);
     }
+
+    @ApiOperation(value = "Retorna a lista de Vakinhas Abertas")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna todas as Vakinhas Abertas"),
+    })
+    @GetMapping("/findByStatusRequestIsTrue")
+    public ResponseEntity<List<RequestDTO>> findByStatusRequestIsTrue() {
+        return ResponseEntity.ok(requestService.findByStatusRequestIsTrue());
+    }
+
+    @ApiOperation(value = "Retorna a lista de Vakinhas Fechadas")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna todas as Vakinhas Fechadas"),
+    })
+    @GetMapping("/findByStatusRequestIsFalse")
+    public ResponseEntity<List<RequestDTO>> findByStatusRequestIsFalse() {
+        return ResponseEntity.ok(requestService.findByStatusRequestIsFalse());
+    }
+
 }

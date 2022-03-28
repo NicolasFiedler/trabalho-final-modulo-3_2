@@ -18,4 +18,5 @@ public class BankAccountCreateDTO {
     @NotNull @NotEmpty
     @ApiModelProperty(value = "Número da agência")
     private String agency;
+
 }

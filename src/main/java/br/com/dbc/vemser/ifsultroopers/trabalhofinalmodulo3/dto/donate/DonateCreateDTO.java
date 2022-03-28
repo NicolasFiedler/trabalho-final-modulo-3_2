@@ -3,6 +3,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -14,12 +15,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class DonateCreateDTO {
 
+    @ApiModelProperty(value = "Nome do Doador")
     @NotEmpty @NotNull
-    @ApiModelProperty(value = "Nome do doador")
     private String donatorName;
 
     @Email
-    @ApiModelProperty(value = "Email do doador")
+    @ApiModelProperty(value = "Email do Doador")
     private String donatorEmail;
 
     @NotNull @Min(1)
@@ -29,5 +30,6 @@ public class DonateCreateDTO {
     @NotEmpty
     @ApiModelProperty(value = "Descrição")
     private String description;
+
 
 }

@@ -84,4 +84,26 @@ public class DonateController {
 //        emailService.pessoaSendEmail(pessoaDTO, "Você perdeu o acesso ao nosso sistema.", " Delet de conta");
         return ResponseEntity.ok(donateDTO);
     }
+
+    @ApiOperation(value = "Retorna a lista de Donates por Id da Request")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna uma lista de Donates por id da Request"),
+            @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @GetMapping("/findByIdRequest/{idRequest}")
+    public ResponseEntity<List<DonateDTO>> getDonateByIdRequest(@PathVariable("idRequest") Integer id){
+        return ResponseEntity.ok(donateService.findByIdRequest(id));
+    }
+
+    @ApiOperation(value = "Retorna a lista de Donates por nome do doador")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna uma lista de Donates  por nome do doador"),
+            @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @GetMapping("/findByDonatorName/{donatorName}")
+    public ResponseEntity<List<DonateDTO>> getDonateByIdRequest(@PathVariable("donatorName") String name){
+        return ResponseEntity.ok(donateService.findByDonatorName(name));
+    }
 }

@@ -2,16 +2,12 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.DonateEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.DonateRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,5 +71,18 @@ public class DonateService {
         return donateDTO;
     }
 
+    public List<DonateDTO> findByIdRequest(Integer idRequest){
+        return donateRepository.findByIdRequest(idRequest)
+                .stream()
+                .map(donateEntity -> objectMapper.convertValue(donateEntity, DonateDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<DonateDTO> findByDonatorName(String name){
+        return donateRepository.findByDonatorNameContainingIgnoreCase(name)
+                .stream()
+                .map(donateEntity -> objectMapper.convertValue(donateEntity, DonateDTO.class))
+                .collect(Collectors.toList());
+    }
 
 }

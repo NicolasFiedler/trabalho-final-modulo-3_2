@@ -1,6 +1,7 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.bankaccount;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.bankaccount.BankAccountCreateDTO;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BankAccountDTO extends BankAccountCreateDTO {
+
     @NotNull
+    @ApiModelProperty(value = "Id da Conta Bancária")
     private Integer idBankAccount;
 }
