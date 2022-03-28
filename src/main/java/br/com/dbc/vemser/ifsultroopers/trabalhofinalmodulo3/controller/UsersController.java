@@ -2,6 +2,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.controller;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersWithRequestsAndDonatesDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersWithRequestsDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.UsersService;
@@ -34,10 +35,24 @@ public class UsersController {
         return usersService.list();
     }
 
-    //TODO - idBankAccount vem null
+    @ApiOperation(value = "Retorna usuarios com suas vakinhas (todos ou pelo ID)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna usuarios"),
+            @ApiResponse(code = 400, message = "Usuario nao encontrado")
+    })
     @GetMapping("/users-with-requests")
     public List<UsersWithRequestsDTO> listUsersWithRequests(@RequestParam(value = "id", required = false) Integer idUser) throws BusinessRuleException {
         return usersService.listWithRequests(idUser);
+    }
+
+    @ApiOperation(value = "Retorna usuarios com suas vakinhas e com donates (todos ou pelo ID)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna usuarios"),
+            @ApiResponse(code = 400, message = "Usuario nao encontrado")
+    })
+    @GetMapping("/users-with-requests-and-donates")
+    public List<UsersWithRequestsAndDonatesDTO> listWithRequestsAndDonates(@RequestParam(value = "id", required = false) Integer idUser) throws BusinessRuleException {
+        return usersService.listWithRequestsAndDonates(idUser);
     }
 
     @GetMapping("/cpf-users")

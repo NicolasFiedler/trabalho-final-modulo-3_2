@@ -1,8 +1,11 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestWithDonatesDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersWithRequestsAndDonatesDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersWithRequestsDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.UsersEntity;
@@ -51,6 +54,47 @@ public class UsersService {
             UsersWithRequestsDTO usersWithRequestsDTO = objectMapper.convertValue(usersEntity, UsersWithRequestsDTO.class);
             usersWithRequestsDTO.setRequests(usersEntity.getRequests().stream()
                     .map(requestEntity -> objectMapper.convertValue(requestEntity, RequestDTO.class))
+                    .collect(Collectors.toList())
+            );
+            usersWithRequestsDTOList.add(usersWithRequestsDTO);
+        }
+        return usersWithRequestsDTOList;
+    }
+
+    public List<UsersWithRequestsAndDonatesDTO> listWithRequestsAndDonates (Integer idUser) throws BusinessRuleException {
+        List<UsersWithRequestsAndDonatesDTO> usersWithRequestsDTOList = new ArrayList<>();
+        if (idUser == null){
+            usersWithRequestsDTOList.addAll(usersRepository.findAll().stream()
+                    .map(usersEntity -> {
+                        UsersWithRequestsAndDonatesDTO usersWithRequestsDTO = objectMapper.convertValue(usersEntity, UsersWithRequestsAndDonatesDTO.class);
+                        usersWithRequestsDTO.setRequestWithDonatesDTOList(usersEntity.getRequests().stream()
+                                .map(requestEntity -> {
+                                    RequestWithDonatesDTO requestDTO = objectMapper.convertValue(requestEntity, RequestWithDonatesDTO.class);
+                                    requestDTO.setDonateDTOList(requestEntity.getDonates().stream()
+                                            .map(donateEntity -> objectMapper.convertValue(donateEntity, DonateDTO.class))
+                                            .collect(Collectors.toList())
+                                    );
+                                    return requestDTO;
+                                })
+                                .collect(Collectors.toList())
+                        );
+
+                        return usersWithRequestsDTO;
+                    }).collect(Collectors.toList())
+            );
+        } else {
+            UsersEntity usersEntity = usersRepository.findById(idUser)
+                    .orElseThrow(() -> new BusinessRuleException("Usuario não econtrado!"));
+            UsersWithRequestsAndDonatesDTO usersWithRequestsDTO = objectMapper.convertValue(usersEntity, UsersWithRequestsAndDonatesDTO.class);
+            usersWithRequestsDTO.setRequestWithDonatesDTOList(usersEntity.getRequests().stream()
+                    .map(requestEntity -> {
+                        RequestWithDonatesDTO requestDTO = objectMapper.convertValue(requestEntity, RequestWithDonatesDTO.class);
+                        requestDTO.setDonateDTOList(requestEntity.getDonates().stream()
+                                .map(donateEntity -> objectMapper.convertValue(donateEntity, DonateDTO.class))
+                                .collect(Collectors.toList())
+                        );
+                        return requestDTO;
+                    })
                     .collect(Collectors.toList())
             );
             usersWithRequestsDTOList.add(usersWithRequestsDTO);
