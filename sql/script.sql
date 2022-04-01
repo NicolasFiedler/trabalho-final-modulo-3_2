@@ -81,6 +81,34 @@ CREATE TABLE  DONATE (
 	 START     1
 	 INCREMENT   1;
 
+-- -----------------------------------------------------
+-- Table ROLES
+-- -----------------------------------------------------
+CREATE TABLE ROLES (
+    ID_ROLE NUMERIC NOT NULL,
+    NAME TEXT UNIQUE NOT NULL,
+
+    PRIMARY KEY(ID_ROLE)
+);
+
+CREATE sequence ROLES_SEQ
+ START     1
+ INCREMENT   1;
+
+-- -----------------------------------------------------
+-- Table USER_ROLE
+-- -----------------------------------------------------
+CREATE TABLE USER_ROLE (
+    ID_USER NUMERIC NOT NULL,
+    ID_ROLE NUMERIC NOT NULL,
+    PRIMARY KEY(ID_USER, ID_ROLE),
+    CONSTRAINT FK_USERS_USER_ROLE FOREIGN KEY (ID_USER) REFERENCES USERS (ID_USER),
+  	CONSTRAINT FK_ROLES_USER_ROLE FOREIGN KEY (ID_ROLE) REFERENCES ROLES (ID_ROLE)
+);
+
+
+
+
 
 -- -----------------------------------------------------
 -- INSERT BANK_ACCOUNT
@@ -109,6 +137,22 @@ INSERT  INTO USERS (id_user, name, email, password, type, document)
 VALUES (nextval('users_seq'), 'Claudia', 'claudia@gmail', '1234', false, '22157284001');
 INSERT  INTO USERS (id_user, name, email, password, type, document)
 VALUES (nextval('users_seq'), 'Rodrigo', 'rodrigo@gmail', '1234', true, '82112413000122');
+
+-- -----------------------------------------------------
+-- INSERT ROLES
+-- -----------------------------------------------------
+insert into roles (id_role, name) 
+values (nextval('roles_seq'), 'ADMIN');
+insert into roles (id_role, name) 
+values (nextval('roles_seq'), 'USER');
+
+-- -----------------------------------------------------
+-- INSERT USER_ROLE
+-- -----------------------------------------------------
+insert into user_role (id_user, id_role)
+values (1,1);
+insert into user_role (id_user, id_role)
+values (2,2);
 
 
 -- -----------------------------------------------------
