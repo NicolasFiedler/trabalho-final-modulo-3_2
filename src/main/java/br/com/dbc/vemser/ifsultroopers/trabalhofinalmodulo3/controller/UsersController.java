@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -100,8 +101,9 @@ public class UsersController {
             @ApiResponse(code = 400, message = "CPF ou CNPJ Invalido")
     })
     @PutMapping("/{idUser}")
-    public UsersDTO update (@PathVariable("idUser") Integer id, @Valid @RequestBody UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
-        return usersService.update(id, usersCreateDTO);
+    public UsersDTO update (@Valid @RequestBody UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
+        String id = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return usersService.update(Integer.parseInt(id), usersCreateDTO);
     }
 
     //ADMIN
