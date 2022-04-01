@@ -37,6 +37,7 @@ public class UsersEntity implements UserDetails {
     @Column(name = "document")
     private String document;
 
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(name = "USUARIO_ROLE", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
@@ -48,7 +49,7 @@ public class UsersEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
