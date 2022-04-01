@@ -38,6 +38,11 @@ public class UsersEntity implements UserDetails {
     private String document;
 
     @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "USUARIO_ROLE", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
+    private Set<RoleEntity> roles;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "usersEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RequestEntity> requests;
 
