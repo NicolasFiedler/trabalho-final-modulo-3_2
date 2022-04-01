@@ -23,6 +23,7 @@ public class BankAcountController {
 
     private final BankAccountService bankAccountService;
 
+    //USER
     @ApiOperation(value = "Cria e retorna a Bank Account criada")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a Bank Account criada"),
@@ -35,6 +36,7 @@ public class BankAcountController {
         return ResponseEntity.ok(bankAccountDTO);
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna a lista de Bank Accounts")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a lista de Bank Account"),
@@ -46,6 +48,7 @@ public class BankAcountController {
         return ResponseEntity.ok(bankAccountService.list());
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna a lista de Bank Accounts por Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna uma lista de Bank Accounts por id"),
@@ -53,11 +56,11 @@ public class BankAcountController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @GetMapping("/{idBankAccount}")
-    public ResponseEntity<BankAccountDTO> getDonateById(@PathVariable("idBankAccount") Integer id) throws Exception {
+    public ResponseEntity<BankAccountDTO> getBankAccountById(@PathVariable("idBankAccount") Integer id) throws Exception {
         return ResponseEntity.ok(bankAccountService.getBankAccountById(id));
     }
 
-
+    //ADMIN
     @ApiOperation(value = "Retorna a Bank Account editada pelo Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a donate Editada pelo Id"),
@@ -70,6 +73,7 @@ public class BankAcountController {
         return  ResponseEntity.ok(bankAccountService.update(id, bankAccountDTO));
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna a Bank Account deletada pelo Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a Bank Account deletada pelo Id"),

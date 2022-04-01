@@ -92,7 +92,7 @@ public class RequestController {
         return ResponseEntity.ok(deleted);
     }
 
-    //ABERTO A TODOS (AUTENTICADOS)
+    //ABERTO
     @ApiOperation(value = "Retorna a lista de Vakinhas Abertas")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna todas as Vakinhas Abertas"),
@@ -102,7 +102,7 @@ public class RequestController {
         return ResponseEntity.ok(requestService.findByStatusRequestIsTrue());
     }
 
-    //ADMIN
+    //ABERTO
     @ApiOperation(value = "Retorna a lista de Vakinhas Fechadas")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna todas as Vakinhas Fechadas"),

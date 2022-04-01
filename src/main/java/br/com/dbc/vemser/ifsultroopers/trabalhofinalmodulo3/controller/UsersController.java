@@ -26,6 +26,7 @@ public class UsersController {
 
     private final UsersService usersService;
 
+    //ADMIN
     @ApiOperation(value = "Retorna a lista de todos os usuarios")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna todos os usuarios")
@@ -35,6 +36,7 @@ public class UsersController {
         return usersService.list();
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna usuarios com suas vakinhas (todos ou pelo ID)")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna usuarios"),
@@ -45,6 +47,7 @@ public class UsersController {
         return usersService.listWithRequests(idUser);
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna usuarios com suas vakinhas e com donates (todos ou pelo ID)")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna usuarios"),
@@ -55,16 +58,19 @@ public class UsersController {
         return usersService.listWithRequestsAndDonates(idUser);
     }
 
+    //ADMIN
     @GetMapping("/cpf-users")
     public List<UsersDTO> listUsersWithCPF () {
         return usersService.listByUserType(false);
     }
 
+    //ADMIN
     @GetMapping("/cnpj-users")
     public List<UsersDTO> listUsersWithCNPJ () {
         return usersService.listByUserType(true);
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna um usuario pelo ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna um usuario"),
@@ -75,6 +81,7 @@ public class UsersController {
         return usersService.getById(id);
     }
 
+    //ABERTO
     @ApiOperation(value = "Insere e Retorna o Usuario inserido")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna Usuario inserido"),
@@ -85,6 +92,7 @@ public class UsersController {
         return usersService.create(usersCreateDTO);
     }
 
+    //PROPRIETARIO
     @ApiOperation(value = "Atualiza e Retorna o usuario atualizado pelo ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna Usuario atualizado"),
@@ -96,6 +104,7 @@ public class UsersController {
         return usersService.update(id, usersCreateDTO);
     }
 
+    //ADMIN
     @ApiOperation(value = "Remove e Retorna o usuario removido pelo ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna uma vakinha"),

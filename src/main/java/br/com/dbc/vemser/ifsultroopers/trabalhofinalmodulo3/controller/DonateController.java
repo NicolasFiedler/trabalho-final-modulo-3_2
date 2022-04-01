@@ -24,7 +24,7 @@ public class DonateController {
 
     private final DonateService donateService;
 
-    //USER
+    //ABERTO
     @ApiOperation(value = "Cria e retorna a Donate criada")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a Donate criada"),
@@ -75,6 +75,7 @@ public class DonateController {
         return  ResponseEntity.ok(donateService.update(id, donateCreateDTO));
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna a donate Deletada pelo Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a donate Deletada pelo Id"),
@@ -88,6 +89,7 @@ public class DonateController {
         return ResponseEntity.ok(donateDTO);
     }
 
+    //PROPRIETARIO
     @ApiOperation(value = "Retorna a lista de Donates por Id da Request")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna uma lista de Donates por id da Request"),
@@ -99,6 +101,7 @@ public class DonateController {
         return ResponseEntity.ok(donateService.findByIdRequest(id));
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna a lista de Donates por nome do doador")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna uma lista de Donates  por nome do doador"),
@@ -106,7 +109,7 @@ public class DonateController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @GetMapping("/findByDonatorName/{donatorName}")
-    public ResponseEntity<List<DonateDTO>> getDonateByIdRequest(@PathVariable("donatorName") String name){
+    public ResponseEntity<List<DonateDTO>> getByDonatorName(@PathVariable("donatorName") String name){
         return ResponseEntity.ok(donateService.findByDonatorName(name));
     }
 }
