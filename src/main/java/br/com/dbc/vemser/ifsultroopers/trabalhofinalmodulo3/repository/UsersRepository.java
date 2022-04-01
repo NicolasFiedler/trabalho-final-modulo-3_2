@@ -10,4 +10,5 @@ import java.util.List;
 public interface UsersRepository extends JpaRepository<UsersEntity, Integer> {
     UsersEntity findByDocument (String document);
     List<UsersEntity> findByType (Boolean type);
+    UsersEntity findByEmail (String email);
 }
