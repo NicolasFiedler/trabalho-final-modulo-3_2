@@ -24,6 +24,7 @@ public class DonateController {
 
     private final DonateService donateService;
 
+    //USER
     @ApiOperation(value = "Cria e retorna a Donate criada")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a Donate criada"),
@@ -36,6 +37,7 @@ public class DonateController {
        return ResponseEntity.ok(donateDTO);
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna a lista de donates")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a lista de donates"),
@@ -47,6 +49,7 @@ public class DonateController {
         return ResponseEntity.ok(donateService.list());
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna a lista de Donates por Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna uma lista de Donates por id"),
@@ -58,7 +61,7 @@ public class DonateController {
         return ResponseEntity.ok(donateService.getDonateById(id));
     }
 
-
+    //ADMIN
     @ApiOperation(value = "Retorna a donate Editada pelo Id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a donate Editada pelo Id"),

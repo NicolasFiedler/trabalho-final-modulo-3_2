@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class RequestController {
 
     private final RequestService requestService;
 
+    //ADMIN
     @ApiOperation(value = "Retorna a lista de vakinhas")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna todas as vakinhas"),
@@ -37,6 +39,7 @@ public class RequestController {
         return requestService.list();
     }
 
+    //ABERTO
     @ApiOperation(value = "Retorna uma vakinha pelo id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna uma vakinha"),
@@ -48,20 +51,22 @@ public class RequestController {
         return ResponseEntity.ok(request);
     }
 
+    //POR PROPRIETARIO
     @ApiOperation(value = "Cria uma vakinha pelo id de um usuário")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a vakinha criada."),
             @ApiResponse(code = 400, message = "Usuário inválido.")
     })
-    @PostMapping("/{idUser}")
+    @PostMapping("/create")
     @Validated
-    public ResponseEntity<RequestDTO> create(@PathVariable("idUser") Integer id,
-                                             @RequestBody @Valid RequestCreateDTO request, @RequestParam Category category) throws Exception {
-        RequestDTO created = requestService.create(id, request, category);
+    public ResponseEntity<RequestDTO> create(@RequestBody @Valid RequestCreateDTO request, @RequestParam Category category) throws Exception {
+        String id = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RequestDTO created = requestService.create(Integer.parseInt(id), request, category);
 
         return ResponseEntity.ok(created);
     }
 
+    //POR PROPRIETARIO
     @ApiOperation(value = "Atualiza a vakinha pelo seu id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a vakinha atualizada."),
@@ -75,6 +80,7 @@ public class RequestController {
         return ResponseEntity.ok(updated);
     }
 
+    //POR PROPRIETARIO && ADMIN
     @ApiOperation(value = "Deleta a vakinha pelo seu id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna a vakinha deletada"),
@@ -86,6 +92,7 @@ public class RequestController {
         return ResponseEntity.ok(deleted);
     }
 
+    //ABERTO A TODOS (AUTENTICADOS)
     @ApiOperation(value = "Retorna a lista de Vakinhas Abertas")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna todas as Vakinhas Abertas"),
@@ -95,6 +102,7 @@ public class RequestController {
         return ResponseEntity.ok(requestService.findByStatusRequestIsTrue());
     }
 
+    //ADMIN
     @ApiOperation(value = "Retorna a lista de Vakinhas Fechadas")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna todas as Vakinhas Fechadas"),
