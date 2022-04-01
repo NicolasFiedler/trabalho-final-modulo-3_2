@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity(name = "ROLE")
+@Entity(name = "ROLES")
 public class RoleEntity implements Serializable, GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_seq")
@@ -19,7 +19,7 @@ public class RoleEntity implements Serializable, GrantedAuthority {
     @Column(name = "id_role")
     private Integer idRole;
 
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
 
     @JsonIgnore

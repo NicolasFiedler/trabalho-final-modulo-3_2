@@ -40,7 +40,7 @@ public class UsersEntity implements UserDetails {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "USUARIO_ROLE", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
+    @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_role"))
     private Set<RoleEntity> roles;
 
     @JsonIgnore
