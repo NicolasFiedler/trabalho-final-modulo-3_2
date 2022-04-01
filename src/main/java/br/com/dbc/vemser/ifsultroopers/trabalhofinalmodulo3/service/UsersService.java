@@ -182,4 +182,7 @@ public class UsersService {
         return true;
     }
 
+    public UsersEntity findByLogin(String email){
+        return usersRepository.findByEmail(email);}
+
 }
