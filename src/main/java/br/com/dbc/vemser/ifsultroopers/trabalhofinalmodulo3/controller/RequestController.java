@@ -1,9 +1,12 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.controller;
 
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestUpdateDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestWithDonatesDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.RequestService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -48,6 +51,18 @@ public class RequestController {
         return ResponseEntity.ok(request);
     }
 
+    //PROPRIETARIO && ADMIN
+    @ApiOperation(value = "Retorna uma Request com seus Donates")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna uma Request com seus Donates"),
+            @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @GetMapping("/findDonateByIdRequest/")
+    public ResponseEntity<RequestWithDonatesDTO> getDonateByIdRequest(@RequestParam Integer idRequest) throws BusinessRuleException {
+        return ResponseEntity.ok(requestService.getRequestsWithDonatesByIdRequest(idRequest));
+    }
+
     //POR PROPRIETARIO
     @ApiOperation(value = "Cria uma vakinha pelo id de um usuário")
     @ApiResponses(value = {
@@ -84,9 +99,8 @@ public class RequestController {
             @ApiResponse(code = 400, message = "Vakinha não encontrada")
     })
     @DeleteMapping("/{idRequest}")
-    public ResponseEntity<RequestDTO> delete() throws Exception {
-        String id = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        RequestDTO deleted = requestService.delete(Integer.parseInt(id));
+    public ResponseEntity<RequestDTO> delete(@PathVariable("idRequest") Integer id) throws Exception {
+        RequestDTO deleted = requestService.delete(id);
         return ResponseEntity.ok(deleted);
     }
 

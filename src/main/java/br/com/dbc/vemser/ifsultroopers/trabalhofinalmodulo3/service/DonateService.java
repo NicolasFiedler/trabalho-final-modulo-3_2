@@ -2,15 +2,20 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.DonateEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RoleEntity;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.UsersEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.DonateRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,10 +23,9 @@ import java.util.stream.Collectors;
 public class DonateService {
 
     private final DonateRepository donateRepository;
-
     private final ObjectMapper objectMapper;
-
     private final RequestService requestService;
+    private final UsersService usersService;
 
     public DonateDTO create(DonateCreateDTO donateCreate, Integer idRequest) throws Exception {
 
@@ -76,13 +80,6 @@ public class DonateService {
         Double valor= 0- donateEntity.getDonateValue();
         requestService.incrementReachedValue(donateEntity.getIdRequest(), valor);
         return donateDTO;
-    }
-
-    public List<DonateDTO> findByIdRequest(Integer idRequest){
-        return donateRepository.findByIdRequest(idRequest)
-                .stream()
-                .map(donateEntity -> objectMapper.convertValue(donateEntity, DonateDTO.class))
-                .collect(Collectors.toList());
     }
 
     public List<DonateDTO> findByDonatorName(String name){

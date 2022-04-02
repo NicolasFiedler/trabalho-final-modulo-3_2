@@ -21,12 +21,12 @@ CREATE TABLE  BANK_ACCOUNT (
 -- Table USER
 -- -----------------------------------------------------
 CREATE TABLE  USERS (
-  id_user numeric NOT NULL,
+  id_user numeric NOT NULL UNIQUE,
   name TEXT NOT NULL,
-  email TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
   type boolean NOT NULL,
-  document TEXT NOT NULL,
+  document TEXT NOT NULL UNIQUE,
   
   PRIMARY KEY (id_user)
 );
@@ -130,21 +130,21 @@ VALUES (nextval('bank_account_seq'), '7900255', '1205');
 -- INSERT USER
 -- -----------------------------------------------------
 INSERT  INTO USERS (id_user, name, email, password, type, document)
-VALUES (nextval('users_seq'), 'Daniele', 'dani@gmail', '1234', false, '73775006036');
+VALUES (nextval('users_seq'), 'admin', 'admin', '$2a$12$8ip8ptNhDTAVqH6ePel51O8no1b2MvQZd5PsB.zZhVBWceT61ghu.', false, '73775006036');
 INSERT  INTO USERS (id_user, name, email, password, type, document)
-VALUES (nextval('users_seq'), 'Liane', 'liane@gmail', '1234', false, '23156682047');
+VALUES (nextval('users_seq'), 'Liane', 'liane@gmail', '$2a$12$GL8U7Mzas9wie2jntRuuuOAUTOVTquZFng6AzuhStaWm0hCJ455oO', false, '23156682047');
 INSERT  INTO USERS (id_user, name, email, password, type, document)
-VALUES (nextval('users_seq'), 'Claudia', 'claudia@gmail', '1234', false, '22157284001');
+VALUES (nextval('users_seq'), 'Claudia', 'claudia@gmail', '$2a$12$GL8U7Mzas9wie2jntRuuuOAUTOVTquZFng6AzuhStaWm0hCJ455oO', false, '22157284001');
 INSERT  INTO USERS (id_user, name, email, password, type, document)
-VALUES (nextval('users_seq'), 'Rodrigo', 'rodrigo@gmail', '1234', true, '82112413000122');
+VALUES (nextval('users_seq'), 'Rodrigo', 'rodrigo@gmail', '$2a$12$GL8U7Mzas9wie2jntRuuuOAUTOVTquZFng6AzuhStaWm0hCJ455oO', true, '82112413000122');
 
 -- -----------------------------------------------------
 -- INSERT ROLES
 -- -----------------------------------------------------
 insert into roles (id_role, name) 
-values (nextval('roles_seq'), 'ADMIN');
+values (nextval('roles_seq'), 'ROLE_ADMIN');
 insert into roles (id_role, name) 
-values (nextval('roles_seq'), 'USER');
+values (nextval('roles_seq'), 'ROLE_USER');
 
 -- -----------------------------------------------------
 -- INSERT USER_ROLE
@@ -153,13 +153,17 @@ insert into user_role (id_user, id_role)
 values (1,1);
 insert into user_role (id_user, id_role)
 values (2,2);
+insert into user_role (id_user, id_role)
+values (3,2);
+insert into user_role (id_user, id_role)
+values (4,2);
 
 
 -- -----------------------------------------------------
 -- INSERT REQUEST
 -- -----------------------------------------------------
 INSERT INTO REQUEST (id_request, title, request_description, goal, reached_value, status_request, id_category, id_bank_account, id_user)
-VALUES (nextval('request_seq'), 'Crianca faminta', ' Nao temos dinheiro para alimentar nossa filha de 3 anos', 50000, 0, true, 2, 1, 1);
+VALUES (nextval('request_seq'), 'Crianca faminta', ' Nao temos dinheiro para alimentar nossa filha de 3 anos', 50000, 0, true, 2, 1, 2);
 INSERT INTO REQUEST (id_request, title, request_description, goal, reached_value, status_request, id_category, id_bank_account, id_user)
 VALUES (nextval('request_seq'), 'Meu pai esta morrendo', ' Nao temos dinheiro para os remedios', 100000, 0, true, 3, 2, 2);
 INSERT INTO REQUEST (id_request, title, request_description, goal, reached_value, status_request, id_category, id_bank_account, id_user)

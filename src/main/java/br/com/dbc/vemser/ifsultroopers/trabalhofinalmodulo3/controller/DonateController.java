@@ -6,6 +6,7 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.DonateServic
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -91,18 +92,7 @@ public class DonateController {
         return ResponseEntity.ok(donateDTO);
     }
 
-    //PROPRIETARIO
-    @ApiOperation(value = "Retorna a lista de Donates por Id da Request")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Retorna uma lista de Donates por id da Request"),
-            @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
-    })
-    @GetMapping("/findByIdRequest/")
-    public ResponseEntity<List<DonateDTO>> getDonateByIdRequest(){
-        String id = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(donateService.findByIdRequest(parseInt(id)));
-    }
+
 
     //ADMIN
     @ApiOperation(value = "Retorna a lista de Donates por nome do doador")

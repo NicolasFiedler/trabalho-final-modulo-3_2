@@ -1,10 +1,13 @@
 package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service;
 
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.bankaccount.BankAccountDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.donate.DonateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestUpdateDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestWithDonatesDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersWithRequestsDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.*;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.RequestRepository;
@@ -65,6 +68,35 @@ public class RequestService {
         RequestEntity requestEntity = requestRepository.findById(id)
                 .orElseThrow(() -> new BusinessRuleException("Vakinha não encontrada!"));
         return objectMapper.convertValue(requestEntity, RequestDTO.class);
+    }
+
+    public RequestWithDonatesDTO getRequestsWithDonatesByIdRequest(Integer idRequest) throws BusinessRuleException {
+        String stringIdUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer idUser = Integer.parseInt(stringIdUser);
+
+        UsersEntity usersEntity = usersService.getEntityById(idUser);
+
+        for (RoleEntity roleEntity : usersEntity.getRoles()) {
+            if (roleEntity.getName().equals("ROLE_ADMIN")){
+                RequestEntity requestEntity = requestRepository.findById(idRequest)
+                        .orElseThrow(() -> new BusinessRuleException("Request não econtrada!"));
+                RequestWithDonatesDTO requestWithDonatesDTO = objectMapper.convertValue(requestEntity, RequestWithDonatesDTO.class);
+                requestWithDonatesDTO.setDonateDTOList(requestEntity.getDonates().stream()
+                        .map(donateEntity -> objectMapper.convertValue(donateEntity, DonateDTO.class))
+                        .collect(Collectors.toList())
+                );
+                return requestWithDonatesDTO;
+            }
+        }
+
+        RequestEntity requestEntity = requestRepository.findByIdUserAndIdRequest(idUser, idRequest)
+                .orElseThrow(() -> new BusinessRuleException("Request não econtrada!"));
+        RequestWithDonatesDTO requestWithDonatesDTO = objectMapper.convertValue(requestEntity, RequestWithDonatesDTO.class);
+        requestWithDonatesDTO.setDonateDTOList(requestEntity.getDonates().stream()
+                .map(donateEntity -> objectMapper.convertValue(donateEntity, DonateDTO.class))
+                .collect(Collectors.toList())
+        );
+        return requestWithDonatesDTO;
     }
 
     public RequestDTO update(Integer id, RequestUpdateDTO request, Category category) throws BusinessRuleException {

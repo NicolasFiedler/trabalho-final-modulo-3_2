@@ -8,17 +8,22 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersWithRequestsAndDonatesDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersWithRequestsDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RoleEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.UsersEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.documents.CNPJ;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.documents.CPF;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.RoleRepository;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.UsersRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +32,7 @@ public class UsersService {
 
     private final UsersRepository usersRepository;
     private final ObjectMapper objectMapper;
+    private final RoleRepository roleRepository;
 
     public List<UsersDTO> list () {
         return usersRepository.findAll().stream()
@@ -122,7 +128,19 @@ public class UsersService {
 
     public UsersDTO create (UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
         UsersEntity u = objectMapper.convertValue(usersCreateDTO, UsersEntity.class);
-        return formatUserDTODocument(usersRepository.save(validateAndSetDocument(u)));
+        u.setPassword(new BCryptPasswordEncoder().encode(u.getPassword()));
+
+        Set<RoleEntity> roles = new HashSet<>();
+        RoleEntity roleEntity = roleRepository.findById(2)
+                .orElseThrow(() -> new BusinessRuleException("Role not found!"));
+        roles.add(roleEntity);
+        u.setRoles(roles);
+
+        try{
+            return formatUserDTODocument(usersRepository.save(validateAndSetDocument(u)));
+        } catch (Exception e) {
+            throw new BusinessRuleException("Valores Invalidos!");
+        }
     }
 
     public UsersDTO update (Integer id, UsersCreateDTO usersCreateDTO) throws BusinessRuleException {

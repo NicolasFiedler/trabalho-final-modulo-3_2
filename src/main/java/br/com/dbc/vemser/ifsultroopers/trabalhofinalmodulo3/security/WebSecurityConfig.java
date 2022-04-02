@@ -3,6 +3,7 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,9 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth").permitAll()
-                .antMatchers(HttpMethod.POST,"/user").permitAll()
-                .antMatchers(HttpMethod.PUT,"/user").hasRole("USER")
+                .antMatchers(HttpMethod.POST,"/donate/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/users").permitAll()
+                .antMatchers(HttpMethod.PUT,"/users").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/request/{\\d+}").permitAll()
+                .antMatchers(HttpMethod.GET, "/request/findDonateByIdRequest/").hasAnyRole("ADMIN", "USER")
                 .antMatchers(HttpMethod.GET, "/request").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/request/**").hasRole("USER")
                 .antMatchers(HttpMethod.DELETE, "/request/**").hasAnyRole("USER", "ADMIN")

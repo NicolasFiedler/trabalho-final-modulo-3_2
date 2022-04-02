@@ -100,7 +100,7 @@ public class UsersController {
             @ApiResponse(code = 400, message = "Usuario nao encontrado"),
             @ApiResponse(code = 400, message = "CPF ou CNPJ Invalido")
     })
-    @PutMapping("/{idUser}")
+    @PutMapping
     public UsersDTO update (@Valid @RequestBody UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
         String id = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return usersService.update(Integer.parseInt(id), usersCreateDTO);
