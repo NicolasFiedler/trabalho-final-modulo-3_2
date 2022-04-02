@@ -8,12 +8,15 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 @Controller
 @RestController
@@ -85,7 +88,6 @@ public class DonateController {
     @DeleteMapping("/{idDonate}")
     public ResponseEntity<DonateDTO> delete(@PathVariable("idDonate") Integer id) throws Exception {
         DonateDTO donateDTO = donateService.delete(id);
-//        emailService.pessoaSendEmail(pessoaDTO, "Você perdeu o acesso ao nosso sistema.", " Delet de conta");
         return ResponseEntity.ok(donateDTO);
     }
 
@@ -96,9 +98,10 @@ public class DonateController {
             @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @GetMapping("/findByIdRequest/{idRequest}")
-    public ResponseEntity<List<DonateDTO>> getDonateByIdRequest(@PathVariable("idRequest") Integer id){
-        return ResponseEntity.ok(donateService.findByIdRequest(id));
+    @GetMapping("/findByIdRequest/")
+    public ResponseEntity<List<DonateDTO>> getDonateByIdRequest(){
+        String id = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(donateService.findByIdRequest(parseInt(id)));
     }
 
     //ADMIN
@@ -112,4 +115,5 @@ public class DonateController {
     public ResponseEntity<List<DonateDTO>> getByDonatorName(@PathVariable("donatorName") String name){
         return ResponseEntity.ok(donateService.findByDonatorName(name));
     }
+
 }

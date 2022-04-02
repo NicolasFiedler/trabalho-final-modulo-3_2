@@ -3,10 +3,8 @@ package br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.controller;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestCreateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestUpdateDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.BankAccountEntity;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.service.RequestService;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -16,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -74,9 +71,9 @@ public class RequestController {
     })
     @PutMapping("/{idRequest}")
     @Validated
-    public ResponseEntity<RequestDTO> update(@PathVariable("idRequest") Integer id,
-                                          @RequestBody @Valid RequestUpdateDTO data, @RequestParam Category category) throws Exception {
-        RequestDTO updated = requestService.update(id, data, category);
+    public ResponseEntity<RequestDTO> update(@RequestBody @Valid RequestUpdateDTO data, @RequestParam Category category) throws Exception {
+        String id = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RequestDTO updated = requestService.update(Integer.parseInt(id), data, category);
         return ResponseEntity.ok(updated);
     }
 
@@ -87,8 +84,9 @@ public class RequestController {
             @ApiResponse(code = 400, message = "Vakinha não encontrada")
     })
     @DeleteMapping("/{idRequest}")
-    public ResponseEntity<RequestDTO> delete(@PathVariable("idRequest") Integer id) throws Exception {
-        RequestDTO deleted = requestService.delete(id);
+    public ResponseEntity<RequestDTO> delete() throws Exception {
+        String id = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        RequestDTO deleted = requestService.delete(Integer.parseInt(id));
         return ResponseEntity.ok(deleted);
     }
 
