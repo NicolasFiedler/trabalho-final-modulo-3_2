@@ -5,19 +5,19 @@ import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestC
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.request.RequestUpdateDTO;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.dto.userdto.UsersDTO;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.BankAccountEntity;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.Category;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.RequestEntity;
-import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.UsersEntity;
+import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.entity.*;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.exception.BusinessRuleException;
 import br.com.dbc.vemser.ifsultroopers.trabalhofinalmodulo3.repository.RequestRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.models.auth.In;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,11 +78,29 @@ public class RequestService {
         return objectMapper.convertValue(requestRepository.save(requestEntity), RequestDTO.class);
     }
     
-    public RequestDTO delete(Integer id) throws BusinessRuleException {
-        RequestEntity requestEntity = requestRepository.findById(id)
-                .orElseThrow(()-> new BusinessRuleException("Vakinha não encontrada!"));
-        requestRepository.deleteById(id);
-        return objectMapper.convertValue(requestEntity, RequestDTO.class);
+    public RequestDTO delete(Integer idRequest) throws BusinessRuleException {
+        String stringIdUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer idUser = Integer.parseInt(stringIdUser);
+
+        UsersEntity usersEntity = usersService.getEntityById(idUser);
+
+        for (RoleEntity roleEntity : usersEntity.getRoles()) {
+            if (roleEntity.getName().equals("ROLE_ADMIN")){
+                RequestEntity requestEntity = requestRepository.findById(idRequest)
+                        .orElseThrow(() -> new BusinessRuleException("Vakinha não encontrada!"));
+                requestRepository.deleteById(idRequest);
+                return objectMapper.convertValue(requestEntity, RequestDTO.class);
+            }
+        }
+
+        Optional<RequestEntity>optionalRequestEntity = requestRepository.findByIdUserAndIdRequest(idUser, idRequest);
+
+        if (optionalRequestEntity.isEmpty()) {
+            throw new BusinessRuleException("Vakinha não encontrada!");
+        }
+
+        requestRepository.deleteById(idRequest);
+        return objectMapper.convertValue(optionalRequestEntity.get(), RequestDTO.class);
     }
 
     public void incrementReachedValue(Integer idRequest, Double donateValue) throws BusinessRuleException {

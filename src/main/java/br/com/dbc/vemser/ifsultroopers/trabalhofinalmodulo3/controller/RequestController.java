@@ -29,7 +29,7 @@ public class RequestController {
 
     private final RequestService requestService;
 
-    //ADMIN
+    //ABERTO
     @ApiOperation(value = "Retorna a lista de vakinhas")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna todas as vakinhas"),

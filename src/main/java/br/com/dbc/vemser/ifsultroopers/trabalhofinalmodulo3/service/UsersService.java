@@ -115,6 +115,11 @@ public class UsersService {
         return formatUserDTODocument(usersEntity);
     }
 
+    public UsersEntity getEntityById (Integer id) throws BusinessRuleException {
+        return usersRepository.findById(id)
+                .orElseThrow(() -> new BusinessRuleException("Usuario nao encontrado!"));
+    }
+
     public UsersDTO create (UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
         UsersEntity u = objectMapper.convertValue(usersCreateDTO, UsersEntity.class);
         return formatUserDTODocument(usersRepository.save(validateAndSetDocument(u)));
