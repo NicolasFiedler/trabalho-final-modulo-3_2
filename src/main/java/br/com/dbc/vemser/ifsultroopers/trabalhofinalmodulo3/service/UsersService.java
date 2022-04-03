@@ -146,6 +146,7 @@ public class UsersService {
     public UsersDTO update (Integer id, UsersCreateDTO usersCreateDTO) throws BusinessRuleException {
         getById(id);
         UsersEntity u = objectMapper.convertValue(usersCreateDTO, UsersEntity.class);
+        u.setPassword(new BCryptPasswordEncoder().encode(u.getPassword()));
         u.setIdUser(id);
         return formatUserDTODocument(usersRepository.save(validateAndSetDocument(u)));
     }
